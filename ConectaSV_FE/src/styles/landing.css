@@ -1,0 +1,757 @@
+/* =========================================================
+   LANDING
+   Solo las secciones de la página de inicio.
+   Se importa desde pages/Landing.jsx
+   ========================================================= */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 72px 0 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .16;
+  background-image: radial-gradient(rgba(34, 183, 221, .7) .7px, transparent .8px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 35%);
+}
+
+main > section,
+.site-footer,
+.site-header {
+  padding-inline: max(24px, calc((100% - var(--ancho)) / 2));
+}
+
+/* Encabezado principal */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  gap: 11px;
+  border-bottom: 1px solid var(--borde);
+  background: rgba(7, 17, 35, .96);
+  backdrop-filter: blur(14px);
+}
+
+.anchors {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  margin-left: auto;
+}
+
+.anchors a {
+  color: #a9b3c4;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+
+.anchors a:hover {
+  color: var(--celeste);
+}
+
+.buttons_inicio {
+  display: flex;
+  gap: 12px;
+  margin-left: 26px;
+}
+
+.buttons_inicio button,
+main button {
+  padding: 13px 23px;
+  border: 1px solid rgba(156, 173, 203, .35);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--texto);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.buttons_inicio button:last-child,
+#caracteristicas .carac_izq button:first-of-type,
+.last footer button:first-child {
+  border-color: var(--celeste);
+  background: var(--celeste);
+  color: #fff;
+}
+
+.buttons_inicio button:hover,
+main button:hover {
+  transform: translateY(-2px);
+  border-color: var(--celeste);
+  color: var(--celeste);
+}
+
+.buttons_inicio button:last-child:hover,
+#caracteristicas .carac_izq button:first-of-type:hover,
+.last footer button:first-child:hover {
+  background: var(--celeste-oscuro);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(8, 175, 208, .22);
+}
+
+/* Estilo compartido de secciones */
+main > section {
+  position: relative;
+  padding-top: 110px;
+  padding-bottom: 110px;
+}
+
+main > section > header {
+  margin-bottom: 25px;
+}
+
+main > section > header > article,
+.testimonio > header > article,
+.last > header > article {
+  display: inline-flex;
+  width: fit-content;
+  padding: 7px 15px;
+  border: 1px solid rgba(8, 175, 208, .3);
+  border-radius: 999px;
+  background: rgba(8, 175, 208, .08);
+  color: var(--celeste);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .65px;
+}
+
+
+main h1,
+main h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--texto);
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+}
+
+main h2 {
+  font-size: clamp(38px, 4vw, 60px);
+}
+
+main h3 {
+  margin-bottom: 8px;
+  color: var(--texto);
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+main p {
+  color: var(--texto-suave);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Características / portada */
+#caracteristicas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(390px, .92fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 78px;
+  min-height: 680px;
+  align-items: center;
+}
+
+#caracteristicas > header {
+  grid-column: 1 / -1;
+  align-self: end;
+  margin: 0 0 26px;
+}
+
+.carac_izq {
+  align-self: start;
+}
+
+.carac_izq h1 {
+  max-width: 600px;
+  margin-bottom: 25px;
+  font-size: clamp(50px, 5.4vw, 76px);
+}
+
+.carac_izq h1::first-line {
+  color: var(--texto);
+}
+
+.carac_izq p {
+  max-width: 570px;
+  margin-bottom: 31px;
+  font-size: 17px;
+}
+
+.carac_izq button {
+  margin: 0 10px 12px 0;
+}
+
+.carac_der {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 520px);
+}
+
+.carac_der::before {
+  content: '347\A Ofertas activas';
+  white-space: pre;
+  position: absolute;
+  z-index: 2;
+  top: -19px;
+  right: -18px;
+  padding: 17px 19px;
+  border-radius: 14px;
+  background: var(--celeste);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: 0 18px 35px rgba(8, 175, 208, .22);
+}
+
+.carac_der::after {
+  content: '18\A Universidades';
+  white-space: pre;
+  position: absolute;
+  z-index: 2;
+  bottom: 20px;
+  left: -27px;
+  padding: 15px 19px;
+  border: 1px solid rgba(126, 173, 239, .35);
+  border-radius: 14px;
+  background: #163c72;
+  color: #fff;
+  font: 700 13px/1.5 'DM Sans', sans-serif;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, .3);
+}
+
+.carac_der img {
+  width: 100% !important;
+  height: 390px;
+  border-radius: 22px;
+  object-fit: cover;
+  filter: brightness(.77) saturate(.85);
+}
+
+#caracteristicas > footer {
+  grid-column: 1 / -1;
+  margin: 75px calc(-1 * max(24px, calc((100vw - var(--ancho)) / 2))) -110px;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+  background: rgba(13, 29, 52, .62);
+}
+
+.carac_arti_footer {
+  display: grid;
+  width: min(var(--ancho), calc(100% - 48px));
+  margin: 0 auto;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.carac_arti_footer article {
+  padding: 24px 16px;
+  border-right: 1px solid var(--borde);
+  text-align: center;
+}
+
+.carac_arti_footer article:last-child {
+  border-right: 0;
+}
+
+.carac_arti_footer h2 {
+  margin-bottom: 2px;
+  color: var(--celeste);
+  font-size: 37px;
+}
+
+.carac_arti_footer p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Sección de estudiantes */
+#estudiantes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, .92fr);
+  gap: 40px 80px;
+  padding-top: 150px;
+}
+
+#estudiantes > header,
+#estudiantes > footer {
+  grid-column: 1;
+}
+
+#estudiantes > header {
+  margin-bottom: -25px;
+}
+
+.estu_izq {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.estu_izq > h2,
+.estu_izq > p {
+  grid-column: 1 / -1;
+}
+
+.estu_izq > h2 {
+  max-width: 640px;
+  margin-bottom: 0;
+}
+
+.estu_izq > p {
+  margin-bottom: 26px;
+  font-size: 16px;
+}
+
+.estu_izq article,
+.emp_der article {
+  min-height: 192px;
+  padding: 25px;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  background: rgba(16, 27, 47, .9);
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+.estu_izq article:hover,
+.emp_der article:hover {
+  transform: translateY(-4px);
+  border-color: rgba(8, 175, 208, .45);
+}
+
+.estu_izq article h3::before {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 25px;
+}
+
+.estu_izq article svg {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 13px;
+  color: var(--celeste);
+}
+
+.estu_izq article p,
+.emp_der article p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.estu_der {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+}
+
+.estu_der img,
+.emp_izq img {
+  width: 100% !important;
+  height: 440px;
+  border-radius: 22px;
+  object-fit: cover;
+  filter: brightness(.84) saturate(.85);
+}
+
+#estudiantes > footer {
+  margin-top: 5px;
+}
+
+#estudiantes > footer button,
+#empresas > footer button {
+  border-color: var(--celeste);
+  color: var(--celeste);
+}
+
+/* Sección de empresas */
+#empresas {
+  display: grid;
+  grid-template-columns: minmax(380px, .92fr) minmax(0, 1fr);
+  gap: 35px 80px;
+  background: rgba(9, 22, 43, .35);
+}
+
+#empresas > header {
+  grid-column: 2;
+  margin-bottom: -12px;
+}
+
+.emp_izq {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: center;
+}
+
+.emp_der {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  grid-column: 2;
+}
+
+.emp_der > h2,
+.emp_der > p {
+  grid-column: 1 / -1;
+}
+
+.emp_der > h2 {
+  margin-bottom: 0;
+}
+
+.emp_der > p {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.emp_der article svg {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 13px;
+  color: var(--celeste);
+}
+
+.emp_der article:nth-of-type(1) h3::before,
+.emp_der article:nth-of-type(2) h3::before,
+.emp_der article:nth-of-type(3) h3::before,
+.emp_der article:nth-of-type(4) h3::before {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 25px;
+}
+
+#empresas > footer {
+  grid-column: 2;
+}
+
+/* Servicio social */
+#servicio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, .92fr);
+  gap: 34px 80px;
+  background: radial-gradient(circle at 50% 14%, rgba(36, 69, 119, .26), transparent 31%);
+}
+
+#servicio > header,
+.serv_title,
+#servicio > footer {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+#servicio > header {
+  margin-bottom: -19px;
+}
+
+#servicio > header article {
+  border-color: rgba(242, 118, 36, .25);
+  background: rgba(242, 118, 36, .1);
+  color: var(--naranja);
+}
+
+.serv_title h2 {
+  max-width: 920px;
+  margin: 0 auto 22px;
+  color: var(--naranja);
+}
+
+.serv_title h2::first-line {
+  color: var(--texto);
+}
+
+.serv_title p {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.serv_izq {
+  display: grid;
+  gap: 16px;
+}
+
+.serv_izq > article {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 105px;
+  padding: 22px 24px 20px 92px;
+  border: 1px solid rgba(242, 118, 36, .19);
+  border-radius: 15px;
+  background: rgba(34, 24, 30, .52);
+}
+
+.serv_izq > article::before {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+/* Aquí van los estilos de los svg de los pasos */
+.serv_izq > article > svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 24px;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(8, 175, 208, .12);
+  color: var(--celeste);
+}
+
+/* Badge "Paso X" dentro de cada tarjeta */
+.serv_izq > article > article {
+  order: 1;
+  width: fit-content;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(242, 118, 36, .15);
+  color: var(--naranja);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.serv_izq > article > h3 {
+  order: 2;
+  margin: 0;
+}
+
+.serv_izq > article > p {
+  order: 3;
+  flex-basis: 100%;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* Tarjeta final (sin badge/h3): el párrafo ocupa todo el ancho junto al ícono */
+.serv_izq > article:nth-of-type(4) > p {
+  margin-top: 0;
+}
+
+.serv_izq strong {
+  color: var(--verde);
+}
+
+/* Columna derecha: imagen + tarjeta de testimonio flotante */
+.serv_izq {
+  grid-column: 1;
+}
+
+.serv_der {
+  position: relative;
+  grid-column: 2;
+  align-self: start;
+}
+
+.serv_der img {
+  width: 100% !important;
+  height: 480px;
+  border-radius: 22px;
+  object-fit: cover;
+  filter: brightness(.85) saturate(.9);
+}
+
+.serv_der > article {
+  position: absolute;
+  right: -18px;
+  bottom: -46px;
+  width: min(340px, 80%);
+  padding: 22px 24px;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  background: var(--fondo-seccion);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, .38);
+}
+
+.serv_der > article h3 {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.serv_der > article p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* Universidades acreditadas */
+#servicio > footer {
+  margin-top: 70px;
+  padding-top: 46px;
+  border-top: 1px solid var(--borde);
+}
+
+#servicio > footer h2 {
+  margin-bottom: 24px;
+  color: var(--texto-suave);
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+#servicio > footer div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+#servicio > footer article {
+  padding: 12px 26px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  color: var(--texto-suave);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Testimonios */
+.testimonio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.testimonio > header,
+.testimonio > h2 {
+  grid-column: 1 / -1;
+}
+
+.testimonio > h2 {
+  max-width: 720px;
+  margin: 0 auto 40px;
+}
+
+.testimonio > article {
+  padding: 28px 26px;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  background: var(--tarjeta);
+  text-align: left;
+}
+
+.testimonio > article::before {
+  content: '\201C';
+  display: block;
+  margin-bottom: 10px;
+  color: var(--celeste);
+  font-family: Georgia, serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: .5;
+}
+
+.testimonio > article::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.testimonio > article > p {
+  margin-bottom: 24px;
+  font-size: 14.5px;
+}
+
+.testimonio > article img {
+  float: left;
+  width: 44px;
+  height: 44px;
+  margin-right: 12px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonio > article > article {
+  overflow: hidden;
+  padding-top: 2px;
+}
+
+.testimonio > article > article h3 {
+  margin-bottom: 2px;
+  font-size: 14px;
+}
+
+.testimonio > article > article h4 {
+  margin: 0 0 3px;
+  color: var(--texto-suave);
+  font-size: 12.5px;
+  font-weight: 400;
+}
+
+.testimonio > article > article h5 {
+  margin: 0;
+  color: var(--celeste);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Última sección: llamada a la acción */
+.last {
+  padding-top: 130px;
+  padding-bottom: 130px;
+  text-align: center;
+}
+
+.last > header {
+  margin-bottom: 26px;
+}
+
+
+.last h2 {
+  max-width: 700px;
+  margin: 0 auto 20px;
+  color: var(--celeste);
+}
+
+.last h2::first-line {
+  color: var(--texto);
+}
+
+.last > section p {
+  max-width: 640px;
+  margin: 0 auto 34px;
+  font-size: 16px;
+}
+
+.last > footer {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* Pie de página */
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 26px;
+  border-top: 1px solid var(--borde);
+}
+
+.site-footer {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 13.5px;
+}

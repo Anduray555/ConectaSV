@@ -1,0 +1,88 @@
+/* =========================================================
+   ESTILOS GLOBALES
+   Lo que usan TODAS las vistas: fuentes, variables, reset,
+   elementos base y componentes compartidos (logo).
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+  --fondo: #071123;
+  --fondo-seccion: #09162b;
+  --tarjeta: #101b2f;
+  --tarjeta-hover: #14243d;
+  --texto: #f7f8fc;
+  --texto-suave: #95a2b7;
+  --celeste: #08afd0;
+  --celeste-oscuro: #078dad;
+  --verde: #27e87b;
+  --naranja: #f27624;
+  --borde: rgba(155, 174, 207, .16);
+  --ancho: 1240px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: 'DM Sans', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin-top: 0;
+}
+
+/* ---------- Logo (Navbar de la landing + login/registro) ---------- */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-container > svg {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  border-radius: 10px;
+  background: var(--celeste);
+  color: #fff;
+  stroke-width: 2.4;
+}
+
+.logo-container > .tlogo {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -.7px;
+}

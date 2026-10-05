@@ -1,0 +1,928 @@
+/* =========================================================
+   DASHBOARD
+   Se importa desde layouts/DashboardLayout.jsx
+   Tema CLARO: no usa las variables oscuras de index.css,
+   define las suyas dentro de .dashboard
+   ========================================================= */
+
+.dashboard {
+  --azul: #1b3a6b;
+  --azul-activo: #21508f;
+  --texto-d: #0f1f3d;
+  --suave-d: #64748b;
+  --borde-d: #e3e8f0;
+  --fondo-d: #f4f6fa;
+  --verde: #059669;
+
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  height: 100vh;
+  background: var(--fondo-d);
+  color: var(--texto-d);
+}
+
+/* ---------- Reset local ----------
+   :where() no suma especificidad, así que cualquier clase de abajo
+   puede sobrescribir estas reglas sin problemas. */
+:where(.dashboard) :is(h1, h2, h3, h4, p, ul, ol, menu, dl, dd, address) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-style: normal;
+}
+
+:where(.dashboard) button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+:where(.dashboard) input {
+  font: inherit;
+}
+
+/* ---------- Piezas compartidas ---------- */
+.dashboard .tarjeta {
+  padding: 22px;
+  border: 1px solid var(--borde-d);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.dashboard .siglas {
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dashboard .buscador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border: 1px solid var(--borde-d);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--suave-d);
+}
+
+.dashboard .buscador svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.dashboard .buscador input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--texto-d);
+  font-size: 15px;
+}
+
+.dashboard .etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dashboard .etiquetas li {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #e8eef9;
+  color: var(--azul);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dashboard .vacio {
+  padding: 40px 0;
+  color: var(--suave-d);
+  text-align: center;
+}
+
+.dashboard .btn-contorno {
+  padding: 12px 20px;
+  border: 1.5px solid var(--azul);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--azul);
+  font-weight: 700;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 12px 0;
+  background: var(--azul);
+  color: #fff;
+}
+
+.marca {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 12px;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.marca b {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--celeste);
+  font-size: 18px;
+}
+
+.marca h2 {
+  font: 700 20px 'Playfair Display', Georgia, serif;
+}
+
+.marca p {
+  color: #9fb3d6;
+  font-size: 13px;
+}
+
+.roles {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .22);
+}
+
+.roles li {
+  flex: auto;
+}
+
+.roles button {
+  width: 100%;
+  padding: 7px 6px;
+  border-radius: 9px;
+  color: #b7c6e3;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.roles button.activo {
+  background: #fff;
+  color: var(--azul);
+}
+
+.sidebar nav {
+  display: grid;
+  gap: 6px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  color: #c3d1ec;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255, 255, 255, .06);
+}
+
+.sidebar nav a.activo {
+  border-left-color: var(--celeste);
+  background: var(--azul-activo);
+  color: #fff;
+}
+
+.sidebar nav svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar nav small {
+  min-width: 22px;
+  margin-left: auto;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--celeste);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.usuario {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 12px;
+  align-items: center;
+  margin-top: auto;
+  padding: 16px 8px 22px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.usuario b {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--celeste);
+  font-size: 14px;
+}
+
+.usuario strong {
+  font-size: 14px;
+}
+
+.usuario small {
+  color: #9fb3d6;
+  font-size: 13px;
+}
+
+/* ---------- Barra superior y área de contenido ---------- */
+.area {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  min-height: 0;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--borde-d);
+  background: #fff;
+}
+
+.barra h1 {
+  font: 700 22px 'Playfair Display', Georgia, serif;
+  letter-spacing: -.3px;
+}
+
+.barra ul {
+  display: flex;
+  gap: 8px;
+}
+
+.barra li {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #e8eef9;
+  color: var(--azul);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.barra li.activo {
+  background: #d9f5e8;
+  color: #047857;
+}
+
+.contenido {
+  min-height: 0;
+  padding: 22px 28px;
+  overflow-y: auto;
+}
+
+/* ---------- Explorar ---------- */
+.explorar {
+  display: grid;
+  gap: 18px;
+}
+
+.filtros {
+  display: flex;
+  gap: 10px;
+}
+
+.filtros button {
+  padding: 8px 16px;
+  border: 1px solid var(--borde-d);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filtros button.activo {
+  border-color: var(--azul);
+  background: var(--azul);
+  color: #fff;
+}
+
+/* La tarjeta usa grid: el logo ocupa la columna 1 y todo lo demás
+   se apila en la columna 2, sin necesidad de divs auxiliares */
+.oferta {
+  display: grid;
+  grid-template-columns: 45px 1fr auto;
+  column-gap: 16px;
+  row-gap: 6px;
+  align-items: start;
+}
+
+.oferta > * {
+  grid-column: 2 / -1;
+}
+
+.oferta > .siglas {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+}
+
+.oferta > h3 {
+  grid-column: 2;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.oferta > .tipo {
+  grid-column: 3;
+  grid-row: 1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.tipo.empleo {
+  background: #e7efff;
+  color: #2456d6;
+}
+
+.tipo.practica {
+  background: #e3f7ee;
+  color: #0a8a52;
+}
+
+.tipo.servicio {
+  background: #fdeee6;
+  color: #d4380d;
+}
+
+.oferta .compania {
+  color: var(--suave-d);
+  font-size: 15px;
+}
+
+.oferta .info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--suave-d);
+  font-size: 13px;
+}
+
+.oferta .info svg {
+  width: 15px;
+  height: 15px;
+}
+
+.oferta .info b {
+  color: var(--verde);
+}
+
+.oferta > small {
+  color: var(--suave-d);
+  font-size: 13px;
+}
+
+/* ---------- Mensajes ---------- */
+.mensajes {
+  display: grid;
+  grid-template-columns: 324px 1fr;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--borde-d);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.conversaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  padding-top: 20px;
+  border-right: 1px solid var(--borde-d);
+}
+
+.conversaciones h2 {
+  padding: 0 18px;
+  font: 700 20px 'Playfair Display', Georgia, serif;
+}
+
+.conversaciones .buscador {
+  margin: 0 18px;
+}
+
+.conversaciones ul {
+  overflow-y: auto;
+  border-top: 1px solid var(--borde-d);
+}
+
+.conversaciones li button {
+  display: grid;
+  grid-template-columns: 45px 1fr auto;
+  column-gap: 12px;
+  row-gap: 3px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--borde-d);
+  text-align: left;
+}
+
+.conversaciones li button.activo {
+  background: #e9f0fb;
+}
+
+.conversaciones .siglas {
+  grid-row: 1 / span 3;
+}
+
+.conversaciones strong {
+  font-size: 15px;
+}
+
+.conversaciones small {
+  color: var(--suave-d);
+  font-size: 13px;
+}
+
+.conversaciones .vacante {
+  grid-column: 2 / -1;
+}
+
+.conversaciones .preview {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.conversaciones .insignia {
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--celeste);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+}
+
+.chat {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 0;
+}
+
+.chat > header {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  column-gap: 14px;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--borde-d);
+}
+
+.chat > header .siglas {
+  grid-row: span 2;
+  width: 42px;
+  height: 42px;
+}
+
+.chat > header p {
+  color: var(--suave-d);
+  font-size: 14px;
+}
+
+.en-linea {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #d9f5e8;
+  color: #047857;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.en-linea::before {
+  content: '● ';
+  font-size: 10px;
+}
+
+.burbujas {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 22px;
+  overflow-y: auto;
+  background: var(--fondo-d);
+}
+
+.burbuja {
+  display: grid;
+  row-gap: 6px;
+  max-width: 62%;
+}
+
+.burbuja p {
+  padding: 14px 16px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.burbuja small {
+  color: var(--suave-d);
+  font-size: 13px;
+}
+
+.burbuja.empresa {
+  grid-template-columns: 32px 1fr;
+  column-gap: 10px;
+  align-self: flex-start;
+}
+
+.burbuja.empresa p,
+.burbuja.empresa small {
+  grid-column: 2;
+}
+
+.burbuja.empresa p {
+  border: 1px solid var(--borde-d);
+  border-bottom-left-radius: 6px;
+  background: #fff;
+}
+
+.burbuja.empresa .siglas {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: end;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.burbuja.yo {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.burbuja.yo p {
+  border-bottom-right-radius: 6px;
+  background: var(--azul);
+  color: #fff;
+  text-align: left;
+}
+
+.chat > form {
+  display: flex;
+  gap: 12px;
+  padding: 18px 22px;
+  border-top: 1px solid var(--borde-d);
+}
+
+.chat > form input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--borde-d);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto-d);
+  font-size: 15px;
+}
+
+.chat > form input:focus,
+.docs-form input:focus {
+  border-color: var(--celeste);
+  outline: 2px solid rgba(8, 175, 208, .25);
+}
+
+.btn-enviar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background: var(--celeste);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn-enviar svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- Documentos SS ---------- */
+.docs {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.docs-form {
+  display: grid;
+  gap: 18px;
+}
+
+.docs-form h2 {
+  font: 700 26px 'Playfair Display', Georgia, serif;
+}
+
+.docs-form > p {
+  margin-top: -10px;
+  color: var(--suave-d);
+}
+
+.docs-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.docs-tabs button {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: 20px 18px;
+  border: 1px solid var(--borde-d);
+  border-radius: 14px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.docs-tabs svg {
+  width: 28px;
+  height: 28px;
+  color: var(--celeste);
+}
+
+.docs-tabs button.activo {
+  border-color: var(--azul);
+  background: var(--azul);
+  color: #fff;
+}
+
+.docs-tabs button.activo svg {
+  color: #fff;
+}
+
+.docs-form .tarjeta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+  padding: 24px;
+}
+
+.docs-form .tarjeta h3 {
+  grid-column: 1 / -1;
+  color: #475569;
+  font-size: 15px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.docs-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--suave-d);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.docs-form input {
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--borde-d);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--texto-d);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.docs-vista {
+  position: sticky;
+  top: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.docs-vista h3 {
+  color: var(--suave-d);
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* La "hoja de papel" */
+.hoja {
+  padding: 26px 24px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(15, 31, 61, .12);
+  color: #111;
+  font: 10px/1.7 'Times New Roman', Times, serif;
+}
+
+.hoja p,
+.hoja address,
+.hoja dl,
+.hoja table {
+  margin-bottom: 12px;
+}
+
+.hoja .derecha {
+  text-align: right;
+}
+
+.hoja h4 {
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.hoja dt {
+  font-weight: 700;
+}
+
+.hoja dd {
+  margin-bottom: 8px;
+}
+
+.hoja table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hoja th,
+.hoja td {
+  padding: 5px 4px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.hoja footer {
+  display: grid;
+  margin-top: 40px;
+}
+
+.hoja footer::before {
+  content: '';
+  width: 110px;
+  margin-bottom: 6px;
+  border-top: 1px solid #111;
+}
+
+.hoja footer small {
+  font-size: 9px;
+}
+
+/* ---------- Mi perfil ---------- */
+.perfil {
+  display: grid;
+  gap: 20px;
+  max-width: 756px;
+  margin: 0 auto;
+}
+
+.perfil .tarjeta {
+  padding: 24px;
+}
+
+.perfil .tarjeta h3 {
+  margin-bottom: 14px;
+  color: #475569;
+  font-size: 15px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.perfil .tarjeta > p {
+  line-height: 1.7;
+}
+
+.perfil .etiquetas li {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.perfil .perfil-principal {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* El banner es un degradado de fondo del header: no hace falta un elemento */
+.perfil-principal header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 226px 24px 20px;
+  background: linear-gradient(120deg, #1b3a6b, #08a9cf) top / 100% 158px no-repeat;
+}
+
+.perfil-principal .avatar-grande {
+  position: absolute;
+  top: 112px;
+  left: 24px;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border: 4px solid #fff;
+  border-radius: 20px;
+  background: var(--azul);
+  color: #fff;
+  font: 700 30px 'Playfair Display', Georgia, serif;
+}
+
+.perfil-principal h2 {
+  font: 700 24px 'Playfair Display', Georgia, serif;
+}
+
+.perfil-principal header p {
+  color: var(--suave-d);
+  font-size: 15px;
+}
+
+.perfil-principal header .ubicacion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.perfil-principal header .ubicacion svg {
+  width: 15px;
+  height: 15px;
+}
+
+.perfil-principal .btn-contorno {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: start;
+}
+
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 0 24px 24px;
+}
+
+.estadisticas li {
+  display: grid;
+  gap: 2px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #e8eef9;
+  color: var(--suave-d);
+  font-size: 13px;
+  text-align: center;
+}
+
+.estadisticas strong {
+  font-size: 22px;
+}
+
+.estadisticas li:nth-child(1) strong {
+  color: var(--azul);
+}
+
+.estadisticas li:nth-child(2) strong {
+  color: var(--celeste);
+}
+
+.estadisticas li:nth-child(3) strong {
+  color: var(--verde);
+}
