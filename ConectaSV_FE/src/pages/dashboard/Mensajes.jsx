@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { IconBuscar, IconEnviar } from '../../assets/icons/dashboard/Iconos'
-import { conversacionesIniciales } from '../../data/dashboard'
+// TODO API: cargar las conversaciones del usuario autenticado.
+import { conversacionesMock } from '../../data/dashboard.mock'
 
 function Mensajes() {
-  const [conversaciones, setConversaciones] = useState(conversacionesIniciales)
-  const [activaId, setActivaId] = useState(1)
+  const [conversaciones, setConversaciones] = useState(() => structuredClone(conversacionesMock))
+  const [activaId, setActivaId] = useState(conversacionesMock[0]?.id ?? null)
   const [busqueda, setBusqueda] = useState('')
   const [texto, setTexto] = useState('')
 
@@ -17,6 +18,7 @@ function Mensajes() {
     e.preventDefault()
     if (!texto.trim()) return
 
+    // TODO API: enviar el mensaje al backend; actualmente solo se guarda en memoria.
     const nuevo = { id: Date.now(), de: 'yo', texto, hora: 'ahora' }
 
     // Nunca se modifica el estado directamente: se crea una copia con el cambio

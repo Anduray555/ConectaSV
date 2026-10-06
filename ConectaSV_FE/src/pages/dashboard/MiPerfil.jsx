@@ -1,20 +1,7 @@
 import { IconPin } from '../../assets/icons/dashboard/Iconos'
 
-const perfil = {
-  siglas: 'AM',
-  nombre: 'Andrea Martínez',
-  carrera: 'Ing. Sistemas',
-  universidad: 'UES',
-  ubicacion: 'San Salvador, El Salvador',
-  acerca:
-    'Estudiante de 8° ciclo de Ingeniería en Sistemas Informáticos en la UES. Apasionada por el desarrollo web full-stack, con experiencia en proyectos universitarios usando React, Node.js y bases de datos relacionales.',
-  habilidades: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Figma', 'Git', 'Python', 'REST APIs'],
-  estadisticas: [
-    { numero: 12, texto: 'Aplicaciones' },
-    { numero: 3, texto: 'Entrevistas' },
-    { numero: 2, texto: 'Mensajes' },
-  ],
-}
+// TODO API: cargar el perfil del estudiante autenticado.
+import { perfilMock as perfil } from '../../data/dashboard.mock'
 
 function MiPerfil() {
   return (

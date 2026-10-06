@@ -27,6 +27,7 @@ export function CampoPassword({ id, label, placeholder }) {
           name={id}
           placeholder={placeholder}
           required
+          minLength="8"
         />
         <button
           type="button"

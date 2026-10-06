@@ -1,4 +1,6 @@
 import { useState } from 'react'
+// TODO API: cargar los datos del estudiante y de su proyecto de servicio social.
+import { documentosSSMock } from '../../data/dashboard.mock'
 import { IconCarta, IconProyecto, IconCalendario } from '../../assets/icons/dashboard/Iconos'
 import HojaDocumento from '../../components/dashboard/HojaDocumento'
 
@@ -39,24 +41,10 @@ const grupos = [
   },
 ]
 
-const datosIniciales = {
-  nombre: 'Andrea Guadalupe Martínez López',
-  carne: 'MR-2021-001',
-  universidad: 'Universidad de El Salvador',
-  carrera: 'Ingeniería en Sistemas Informáticos',
-  institucion: 'Cruz Roja Salvadoreña',
-  direccion: '75 Av. Norte, San Salvador',
-  tutor: 'Licda. Carmen Elena Vásquez',
-  telTutor: '7890-1234',
-  proyecto: 'Sistema de Gestión Documental para Cruz Roja Salvadoreña',
-  horas: '300',
-  inicio: '2024-01-14',
-  fin: '2024-04-29',
-}
 
 function DocumentosSS() {
   const [doc, setDoc] = useState('carta')
-  const [datos, setDatos] = useState(datosIniciales)
+  const [datos, setDatos] = useState(() => structuredClone(documentosSSMock))
 
   // Un solo manejador para todos los inputs: usa el "name" del input como clave
   function cambiar(e) {

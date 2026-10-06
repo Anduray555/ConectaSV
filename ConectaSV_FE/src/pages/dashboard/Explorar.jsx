@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import TarjetaOferta from '../../components/dashboard/TarjetaOferta'
 import { IconBuscar } from '../../assets/icons/dashboard/Iconos'
-import { ofertas } from '../../data/dashboard'
+// TODO API: cargar las oportunidades y adaptar la respuesta al formato de las tarjetas.
+import { ofertasMock as ofertas } from '../../data/dashboard.mock'
 
 const filtros = [
   { valor: 'todas', texto: 'Todas' },

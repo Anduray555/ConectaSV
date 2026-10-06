@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { Google, Microsoft, Correo } from "../assets/icons/landing/Svg_Icons.jsx"
 import PanelAuth from "../components/login_register/PanelAuth.jsx"
 import { Campo, CampoPassword } from "../components/login_register/Campo.jsx"
 import "../styles/auth.css"
 
 function Login() {
+  const navigate = useNavigate()
+
   function handleSubmit(e) {
     e.preventDefault()
   }
@@ -23,7 +25,7 @@ function Login() {
           <p className="subtitulo">Inicia sesión para continuar a tu cuenta.</p>
 
           <div className="social-botones">
-            <button type="button" onClick={()=> navigate('/dashboard')}><Google /> Google</button>
+            <button type="button" onClick={()=> navigate('/dashboard/explorar')}><Google /> Google</button>
             <button type="button"><Microsoft /> Microsoft</button>
           </div>
 

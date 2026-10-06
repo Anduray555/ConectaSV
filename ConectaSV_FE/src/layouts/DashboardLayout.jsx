@@ -1,20 +1,21 @@
-import { useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, Link } from 'react-router-dom'
 import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil } from '../assets/icons/dashboard/Iconos'
+// TODO API: obtener la sesión, el perfil y el contador de mensajes sin leer.
+import { perfilMock, sesionDashboardMock, conversacionesMock } from '../data/dashboard.mock'
 import '../styles/dashboard.css'
 
-const roles = ['Estudiante', 'Empresa', 'Admin']
+const mensajesSinLeerMock = conversacionesMock.reduce((total, c) => total + c.sinLeer, 0)
 
 // "texto" es lo que se ve en la sidebar; "titulo" lo que se ve en la barra superior
 const menu = [
   { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
-  { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: 2 },
+  { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: mensajesSinLeerMock },
   { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
   { to: '/dashboard/perfil', texto: 'Mi Perfil', titulo: 'Mi Perfil', icono: <IconPerfil /> },
 ]
 
 function DashboardLayout() {
-  const [rol, setRol] = useState('Estudiante')
+  const { rol, ciclo } = sesionDashboardMock
   const { pathname } = useLocation()
   const actual = menu.find((item) => item.to === pathname)
 
@@ -27,19 +28,7 @@ function DashboardLayout() {
           <p>Plataforma estudiantil</p>
         </header>
 
-{/*         <menu className="roles">
-          {roles.map((r) => (
-            <li key={r}>
-              <button
-                type="button"
-                className={rol === r ? 'activo' : ''}
-                onClick={() => setRol(r)}
-              >
-                {r}
-              </button>
-            </li>
-          ))}
-        </menu> */}
+
 
         <nav>
           {menu.map((item) => (
@@ -53,12 +42,13 @@ function DashboardLayout() {
               {item.insignia && <small>{item.insignia}</small>}
             </NavLink>
           ))}
+          <Link to="/">Inicia sesión</Link>
         </nav>
 
         <footer className="usuario">
-          <b>AM</b>
-          <strong>Andrea Martínez</strong>
-          <small>Estudiante · UES</small>
+          <b>{perfilMock.siglas}</b>
+          <strong>{perfilMock.nombre}</strong>
+          <small>{rol} · {perfilMock.universidad}</small>
         </footer>
       </aside>
 
@@ -66,12 +56,14 @@ function DashboardLayout() {
         <header className="barra">
           <h1>{actual?.titulo}</h1>
           <ul>
-            <li>Ciclo 02-2024</li>
+            <li>Ciclo {ciclo}</li>
             <li className="activo">{rol} activo</li>
           </ul>
         </header>
 
         <section className="contenido">
+          {/* TODO API: retirar este aviso cuando los datos provengan del backend. */}
+          <p className="aviso-datos-ejemplo">Datos de ejemplo · La conexión con el backend está pendiente. Los cambios son temporales.</p>
           <Outlet />
         </section>
       </section>
