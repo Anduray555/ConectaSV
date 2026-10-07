@@ -4,20 +4,20 @@
    elementos base y componentes compartidos (logo).
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --fondo: #071123;
-  --fondo-seccion: #09162b;
-  --tarjeta: #101b2f;
-  --tarjeta-hover: #14243d;
+  --fondo: #1a5bfa;
+  --fondo-seccion: #154ee0;
+  --tarjeta: #1246cd;
+  --tarjeta-hover: #103db5;
   --texto: #f7f8fc;
-  --texto-suave: #95a2b7;
-  --celeste: #08afd0;
-  --celeste-oscuro: #078dad;
+  --texto-suave: #dce6ff;
+  --celeste: #1a5bfa;
+  --celeste-oscuro: #154ee0;
   --verde: #27e87b;
   --naranja: #f27624;
-  --borde: rgba(155, 174, 207, .16);
+  --borde: rgba(255, 255, 255, .22);
   --ancho: 1240px;
 }
 
@@ -33,7 +33,7 @@ body {
   margin: 0;
   background: var(--fondo);
   color: var(--texto);
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   overflow-x: hidden;
 }
 
@@ -81,8 +81,19 @@ p {
 
 .logo-container > .tlogo {
   margin: 0;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 23px;
   font-weight: 700;
   letter-spacing: -.7px;
+}
+
+
+/* Velocity: shared interaction and typography tokens. */
+:root { --font-mono: 'JetBrains Mono', monospace; --radius-card: 16px; --radius-control: 8px; }
+button, input, select, textarea { font-family: inherit; }
+:focus-visible { outline: 3px solid #a9c2ff; outline-offset: 4px; }
+::selection { background: #fff; color: #154ee0; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

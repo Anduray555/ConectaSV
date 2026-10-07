@@ -151,7 +151,7 @@
 }
 
 .marca h2 {
-  font: 700 20px 'Playfair Display', Georgia, serif;
+  font: 700 20px 'Inter', Arial, sans-serif;
 }
 
 .marca p {
@@ -277,7 +277,7 @@
 }
 
 .barra h1 {
-  font: 700 22px 'Playfair Display', Georgia, serif;
+  font: 700 22px 'Inter', Arial, sans-serif;
   letter-spacing: -.3px;
 }
 
@@ -431,7 +431,7 @@
 
 .conversaciones h2 {
   padding: 0 18px;
-  font: 700 20px 'Playfair Display', Georgia, serif;
+  font: 700 20px 'Inter', Arial, sans-serif;
 }
 
 .conversaciones .buscador {
@@ -621,7 +621,7 @@
 .chat > form input:focus,
 .docs-form input:focus {
   border-color: var(--celeste);
-  outline: 2px solid rgba(8, 175, 208, .25);
+  outline: 2px solid rgba(26, 91, 250, .25);
 }
 
 .btn-enviar {
@@ -654,7 +654,7 @@
 }
 
 .docs-form h2 {
-  font: 700 26px 'Playfair Display', Georgia, serif;
+  font: 700 26px 'Inter', Arial, sans-serif;
 }
 
 .docs-form > p {
@@ -862,11 +862,11 @@
   border-radius: 20px;
   background: var(--azul);
   color: #fff;
-  font: 700 30px 'Playfair Display', Georgia, serif;
+  font: 700 30px 'Inter', Arial, sans-serif;
 }
 
 .perfil-principal h2 {
-  font: 700 24px 'Playfair Display', Georgia, serif;
+  font: 700 24px 'Inter', Arial, sans-serif;
 }
 
 .perfil-principal header p {
@@ -938,3 +938,52 @@
   font-size: 14px;
 }
 
+
+/* Velocity workspace: blue navigation, neutral nested panels. */
+.dashboard { --azul: #1a5bfa; --azul-activo: #154ee0; --borde-d: #dbe3ef; --fondo-d: #f1f5fb; }
+.sidebar { padding: 28px 16px 0; }
+.marca b, .usuario b { background: #ffffff20; border: 1px solid #ffffff30; }
+.marca h2, .barra h1, .conversaciones h2, .docs-form h2, .perfil-principal h2 { font-weight: 500; letter-spacing: -.04em; }
+.marca p, .usuario small { color: #d2e0ff; }
+.sidebar nav a { font-size: 14px; font-weight: 500; color: #dce6ff; border-radius: 8px; }
+.sidebar nav a.activo { background: #ffffff18; border-left-color: white; }
+.sidebar nav small { background: white; color: #1a5bfa; font-family: var(--font-mono); }
+.barra { padding: 24px 32px; }
+.barra li, .oferta > .tipo, .oferta > small, .estadisticas li { font-family: var(--font-mono); font-size: 11px; }
+.contenido { padding: 24px 32px; }
+.dashboard .tarjeta { border-radius: 16px; padding: 24px; box-shadow: 0 3px 12px #173c8505; }
+.explorar .oferta { transition: border-color .2s,box-shadow .2s; }
+.explorar .oferta:hover { border-color: #9ab7fc; box-shadow: 0 8px 24px #173c850b; }
+.dashboard .btn-contorno, .dashboard .buscador, .chat > form input, .btn-enviar { border-radius: 8px; }
+.perfil-principal header { background-image: linear-gradient(120deg,#154ee0,#4b80ff); }
+@media (max-width: 1000px) { .dashboard { grid-template-columns: 210px minmax(0,1fr); } .docs { grid-template-columns: 1fr; } .docs-vista { position: static; max-width: 480px; } .mensajes { grid-template-columns: 240px minmax(0,1fr); } }
+@media (max-width: 700px) {
+  .dashboard { grid-template-columns: minmax(0,1fr); height: auto; min-height: 100vh; }
+  .sidebar { padding: 16px; gap: 12px; }
+  .sidebar nav { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; }
+  .sidebar nav a { flex-direction: column; gap: 6px; padding: 10px 4px; font-size: 10px; text-align: center; border-left: 0; }
+  .sidebar nav small { display: none; }
+  .usuario { display: none; }
+  .roles { max-width: 280px; }
+  .barra { padding: 20px 16px; flex-wrap: wrap; gap: 12px; }
+  .contenido { padding: 16px; overflow: visible; }
+  .filtros { flex-wrap: wrap; }
+  .filtros button { padding: 8px 12px; font-size: 12px; }
+  .mensajes { grid-template-columns: minmax(0,1fr); height: auto; }
+  .conversaciones { max-height: 240px; border-right: 0; }
+  .chat { height: 540px; }
+  .burbuja { max-width: 90%; }
+  .chat > form { padding: 12px; gap: 8px; }
+  .chat > form input { min-width: 0; }
+  .btn-enviar { padding-inline: 12px; }
+  .docs-tabs { gap: 8px; }
+  .docs-tabs button { padding: 14px 10px; font-size: 12px; }
+  .docs-form .tarjeta { grid-template-columns: 1fr; }
+  .perfil-principal header { grid-template-columns: 1fr; }
+  .perfil-principal .btn-contorno { grid-column: 1; grid-row: auto; margin-top: 16px; }
+  .estadisticas { gap: 8px; padding-inline: 16px; }
+  .estadisticas li { padding: 12px 6px; font-size: 9px; }
+  .oferta { grid-template-columns: 36px minmax(0,1fr); gap: 10px; }
+  .oferta > .tipo { grid-column: 2; grid-row: auto; justify-self: start; }
+  .oferta .info { flex-wrap: wrap; }
+}

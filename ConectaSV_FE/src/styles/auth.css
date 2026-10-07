@@ -43,9 +43,9 @@
   align-items: center;
   gap: 8px;
   padding: 7px 14px;
-  border: 1px solid rgba(8, 175, 208, .45);
+  border: 1px solid rgba(26, 91, 250, .45);
   border-radius: 999px;
-  background: rgba(8, 175, 208, .1);
+  background: rgba(26, 91, 250, .1);
   color: var(--celeste);
   font-size: 12px;
   font-weight: 700;
@@ -62,7 +62,7 @@
 
 .login-hero h2 {
   margin: 20px 0 18px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: clamp(34px, 3.4vw, 48px);
   line-height: 1.12;
   letter-spacing: -1px;
@@ -123,7 +123,7 @@
 .footer-lr h2 {
   margin: 0;
   color: var(--celeste);
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 30px;
   line-height: 1.1;
 }
@@ -149,7 +149,7 @@
 
 .login-caja h1 {
   margin: 0 0 8px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 34px;
   line-height: 1.1;
   letter-spacing: -1px;
@@ -255,7 +255,7 @@
 .campo input:focus {
   outline: none;
   border-color: var(--celeste);
-  box-shadow: 0 0 0 3px rgba(8, 175, 208, .18);
+  box-shadow: 0 0 0 3px rgba(26, 91, 250, .18);
 }
 
 .ojo {
@@ -353,7 +353,7 @@
 
 .paso.activo span {
   border-color: var(--celeste);
-  background: rgba(8, 175, 208, .15);
+  background: rgba(26, 91, 250, .15);
   color: var(--celeste);
 }
 
@@ -397,7 +397,7 @@
 
 .tipo-cuenta button.activo {
   border-color: var(--celeste);
-  background: rgba(8, 175, 208, .12);
+  background: rgba(26, 91, 250, .12);
   color: var(--texto);
 }
 
@@ -447,7 +447,7 @@
 .campo select:focus {
   outline: none;
   border-color: var(--celeste);
-  box-shadow: 0 0 0 3px rgba(8, 175, 208, .18);
+  box-shadow: 0 0 0 3px rgba(26, 91, 250, .18);
 }
 
 .campo select option {
@@ -545,3 +545,17 @@
     display: none;
   }
 }
+
+/* Velocity authentication surfaces. */
+.login-izq { background: radial-gradient(ellipse at top right,#ffffff15,transparent 65%),#1a5bfa; }
+.login-izq .badge { color: white; border-color: #ffffff40; background: #ffffff0d; font-family: var(--font-mono); font-size: 10px; }
+.login-izq .badge::before { background: #b9ffc9; }
+.login-hero h2 { font-weight: 500; letter-spacing: -.04em; }
+.login-izq .recuadros svg, .login-izq .footer-lr h2 { color: white; }
+.login-der { --texto: #172442; --texto-suave: #5d6b82; --tarjeta: #fff; --tarjeta-hover: #edf2ff; --borde: #cbd5e1; background: #f4f7ff; color: var(--texto); }
+.login-caja { max-width: 472px; padding: 32px; border: 1px solid #dce4f1; border-radius: 16px; background: white; box-shadow: 0 16px 48px #173c8510; }
+.login-caja h1 { font-weight: 500; letter-spacing: -.04em; }
+.login-caja button, .campo input, .campo select { border-radius: 8px; }
+.tipo-cuenta button.activo { color: #154ee0; background: #edf2ff; }
+.paso.activo, .paso.completo { color: #154ee0; }
+@media (max-width: 480px) { .login-der { padding: 20px 16px; } .login-caja { padding: 24px 18px; } .social-botones { grid-template-columns: 1fr; } }

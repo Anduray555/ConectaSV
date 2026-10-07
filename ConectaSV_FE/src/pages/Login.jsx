@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Google, Microsoft, Correo } from "../assets/icons/landing/Svg_Icons.jsx"
 import PanelAuth from "../components/login_register/PanelAuth.jsx"
 import { Campo, CampoPassword } from "../components/login_register/Campo.jsx"

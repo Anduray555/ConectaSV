@@ -10,7 +10,7 @@ import Last from '../components/landing/Last.jsx'
 
 function App() {
   return (
-    <>
+    <div className="landing-page">
     <Header />
     <main>
         <Hero />
@@ -21,8 +21,9 @@ function App() {
         <Last />
     </main>
     <Footer />
-    </>
+    </div>
   )
 }
 
 export default App
+
