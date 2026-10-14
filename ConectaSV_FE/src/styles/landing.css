@@ -29,6 +29,7 @@ main > section,
   z-index: 100;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   min-height: 72px;
   gap: 11px;
   border-bottom: 1px solid var(--borde);
@@ -40,7 +41,6 @@ main > section,
   display: flex;
   align-items: center;
   gap: 34px;
-  margin-left: auto;
 }
 
 .anchors a {
@@ -58,7 +58,6 @@ main > section,
 .buttons_inicio {
   display: flex;
   gap: 12px;
-  margin-left: 26px;
 }
 
 .buttons_inicio button,

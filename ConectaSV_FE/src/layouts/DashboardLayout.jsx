@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation, Link } from 'react-router-dom'
 import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil } from '../assets/icons/dashboard/Iconos'
+import { Logo } from '../components/Logo'
 // TODO API: obtener la sesión, el perfil y el contador de mensajes sin leer.
 import { perfilMock, sesionDashboardMock, conversacionesMock } from '../data/dashboard.mock'
 import '../styles/dashboard.css'
@@ -10,7 +11,7 @@ const mensajesSinLeerMock = conversacionesMock.reduce((total, c) => total + c.si
 const menu = [
   { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
   { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: mensajesSinLeerMock },
-  { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
+  { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Documentación Servicio Social', icono: <IconDocumentos /> },
   { to: '/dashboard/perfil', texto: 'Mi Perfil', titulo: 'Mi Perfil', icono: <IconPerfil /> },
 ]
 
@@ -23,9 +24,8 @@ function DashboardLayout() {
     <div className="dashboard">
       <aside className="sidebar">
         <header className="marca">
-          <b>C</b>
-          <h2>ConectaSV</h2>
-          <p>Plataforma estudiantil</p>
+          <Logo></Logo>
+          {/* <p>Plataforma estudiantil</p> */}
         </header>
 
 

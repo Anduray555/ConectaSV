@@ -559,3 +559,49 @@
 .tipo-cuenta button.activo { color: #154ee0; background: #edf2ff; }
 .paso.activo, .paso.completo { color: #154ee0; }
 @media (max-width: 480px) { .login-der { padding: 20px 16px; } .login-caja { padding: 24px 18px; } .social-botones { grid-template-columns: 1fr; } }
+
+/* Password recovery shares the authentication palette and components. */
+.recuperacion { min-height: 100svh; }
+.recuperacion .login-izq { padding: clamp(32px, 4vw, 64px); }
+.recuperacion .login-hero h2 { max-width: 640px; }
+.recuperacion-caja { max-width: 536px; padding: 40px; }
+.recuperacion-volver {
+  display: inline-flex;
+  margin-bottom: 32px;
+  color: var(--texto-suave);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color .2s;
+}
+.recuperacion-volver:hover { color: var(--celeste); }
+.recuperacion-icono {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  border: 1px solid #dce5ff;
+  border-radius: 16px;
+  background: #edf2ff;
+  color: var(--celeste);
+}
+.recuperacion-icono svg { width: 28px; height: 28px; }
+.recuperacion-caja h1 { font-size: clamp(28px, 2.4vw, 34px); }
+.recuperacion-caja .subtitulo { line-height: 1.7; }
+.recuperacion-enviar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: auto;
+  min-height: 55px;
+  padding: 14px 16px;
+  line-height: 1.4;
+}
+.recuperacion-estado { margin: 16px 0 0; color: var(--texto-suave); font-size: 14px; line-height: 1.6; }
+.recuperacion-estado:empty { display: none; }
+.recuperacion-nota { margin: 24px 0 0; color: var(--texto-suave); text-align: center; font-size: 13px; line-height: 1.7; }
+@media (max-width: 480px) {
+  .recuperacion-caja { padding: 28px 20px; }
+  .recuperacion-enviar { font-size: 14px; }
+}

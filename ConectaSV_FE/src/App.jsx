@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import RecoverPassword from './pages/RecoverPassword'
 
 import DashboardLayout from './layouts/DashboardLayout'
 import Explorar from './pages/dashboard/Explorar'
@@ -15,7 +16,7 @@ function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Register />} />
-
+      <Route path="/recuperar-password" element={<RecoverPassword />} />
 
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<Navigate to="explorar" replace />} />
