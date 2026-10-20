@@ -11,7 +11,7 @@ const mensajesSinLeerMock = conversacionesMock.reduce((total, c) => total + c.si
 const menu = [
   { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
   { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: mensajesSinLeerMock },
-  { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Documentación Servicio Social', icono: <IconDocumentos /> },
+  { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
   { to: '/dashboard/perfil', texto: 'Mi Perfil', titulo: 'Mi Perfil', icono: <IconPerfil /> },
 ]
 
@@ -30,6 +30,9 @@ function DashboardLayout() {
 
 
 
+        {/* TODO BACKEND: este selector permite navegar por la demostración; sustituirlo por
+            navegación acorde al rol de la sesión, sin permitir cambiar permisos desde la UI. */}
+        <div className="roles"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard">Empresa</Link></div>
         <nav>
           {menu.map((item) => (
             <NavLink
@@ -72,3 +75,5 @@ function DashboardLayout() {
 }
 
 export default DashboardLayout
+
+

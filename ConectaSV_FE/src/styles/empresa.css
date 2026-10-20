@@ -1,0 +1,131 @@
+/* Vistas de empresa: usan el tema, la navegación y las tarjetas del dashboard. */
+.empresa-vista { display: grid; gap: 18px; align-content: start; }
+.empresa-encabezado, .empresa-seccion-titulo { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.empresa-encabezado h2 { font-size: 24px; font-weight: 500; letter-spacing: -.04em; margin-bottom: 6px; }
+.empresa-encabezado p, .empresa-vista small, .empresa-vista dt { color: var(--suave-d); }
+.empresa-encabezado p { font-size: 14px; line-height: 1.6; }
+.empresa-dashboard a { color: var(--azul); text-decoration: none; }
+.empresa-dashboard a:hover { text-decoration: underline; }
+.empresa-dashboard .sidebar nav a { color: #dce6ff; }
+.empresa-dashboard .sidebar nav a.activo { color: white; }
+.empresa-roles { display: flex; gap: 6px; padding: 5px; border-radius: 10px; background: #ffffff18; }
+.empresa-roles a { flex: 1; padding: 8px 4px; color: #dce6ff; text-align: center; font-size: 12px; }
+.empresa-roles a[aria-current] { background: white; color: var(--azul); border-radius: 7px; }
+.dashboard .empresa-btn, .dashboard .empresa-btn-secundario, .dashboard .empresa-btn-peligro { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 9px 14px; border: 1px solid var(--borde-d); border-radius: 8px; background: white; color: var(--azul); font-size: 13px; font-weight: 600; cursor: pointer; }
+.dashboard .empresa-btn { background: var(--azul); border-color: var(--azul); color: white; }
+.dashboard .empresa-btn-peligro { background: #fff1f2; border-color: #fecdd3; color: #be123c; }
+.dashboard .empresa-btn:hover { background: var(--azul-activo); }
+.dashboard .empresa-btn-secundario:hover { background: #e8eef9; }
+.empresa-dashboard button:focus-visible, .empresa-dashboard a:focus-visible, .empresa-cargar:focus-within { outline: 3px solid #8baeff; outline-offset: 3px; }
+.empresa-metricas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.empresa-metrica { display: flex; flex-direction: column; gap: 10px; color: var(--texto-d) !important; }
+.empresa-metrica strong { color: var(--azul); font-size: 32px; font-weight: 600; }
+.empresa-metrica span { font-size: 14px; }
+.empresa-metrica small { font-size: 12px; line-height: 1.5; }
+.empresa-resumen { display: grid; grid-template-columns: 3fr 2fr; gap: 18px; }
+.empresa-resumen > section { min-width: 0; }
+.empresa-seccion-titulo { align-items: center; margin-bottom: 18px; }
+.empresa-vista h3 { font-size: 16px; font-weight: 600; }
+.empresa-seccion-titulo a { font-size: 12px; white-space: nowrap; }
+.empresa-filas { display: grid; gap: 10px; }
+.empresa-filas li { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 10px; background: var(--fondo-d); }
+.empresa-filas li > div { flex: 1; min-width: 0; }
+.empresa-filas strong, .empresa-filas a { font-size: 13px; font-weight: 600; }
+.empresa-filas small { display: block; margin-top: 5px; font-size: 11px; line-height: 1.5; }
+.empresa-filas .siglas, .empresa-candidato .siglas { flex-shrink: 0; border-radius: 50%; }
+.empresa-match { color: var(--azul); font-size: 13px; text-align: right; }
+.empresa-match small { display: block; font-size: 10px; margin-top: 4px; }
+.empresa-estado { display: inline-block; width: fit-content; padding: 5px 9px; border-radius: 999px; background: #e8eef9; color: var(--azul); font-size: 11px; font-weight: 500; white-space: nowrap; }
+.estado-aceptado { background: #d9f5e8; color: #047857; }
+.estado-pendiente { background: #fef3c7; color: #92400e; }
+.estado-entrevista { background: #e8e7ff; color: #5046bd; }
+.estado-rechazado { background: #ffe4e6; color: #be123c; }
+.empresa-acciones { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.empresa-oferta { display: grid; grid-template-columns: 45px minmax(0, 1fr) auto; align-items: start; gap: 16px; }
+.empresa-oferta h3 { margin-bottom: 8px; }
+.empresa-oferta p { font-size: 14px; color: var(--suave-d); margin-bottom: 12px; }
+.empresa-oferta-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 12px; }
+.empresa-oferta-meta small { font-size: 11px; }
+.empresa-confirmacion { grid-column: 2 / -1; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid var(--borde-d); }
+.empresa-confirmacion p { margin: 0; }
+.empresa-form { display: grid; gap: 18px; }
+.empresa-campos { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.empresa-campos label, .empresa-filtros label { display: grid; gap: 8px; font-size: 13px; color: var(--suave-d); }
+.empresa-campos input, .empresa-campos select, .empresa-campos textarea, .empresa-filtros select { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--borde-d); border-radius: 8px; background: white; color: var(--texto-d); font: inherit; }
+.empresa-campos textarea { min-height: 100px; resize: vertical; }
+.empresa-campo-ancho { grid-column: 1 / -1; }
+.empresa-filtros { display: grid; justify-items: start; gap: 14px; margin-bottom: 4px; }
+.empresa-filtros select { max-width: 100%; }
+.empresa-filtros .filtros { flex-wrap: wrap; }
+.empresa-candidato { display: grid; grid-template-columns: 45px minmax(0, 1fr) auto; align-items: start; gap: 16px; }
+.empresa-candidato h3 { margin-bottom: 7px; }
+.empresa-candidato p { font-size: 13px; color: var(--suave-d); margin-bottom: 10px; }
+.empresa-candidato .empresa-candidato-oferta { color: var(--azul); }
+.empresa-candidato-estado { display: grid; justify-items: end; align-content: space-between; gap: 26px; height: 100%; }
+.empresa-expedientes { display: grid; grid-template-columns: 285px minmax(0, 1fr); gap: 18px; align-items: start; }
+.dashboard .empresa-estudiantes { overflow: hidden; padding: 0; }
+.empresa-estudiantes header { padding: 20px; }
+.empresa-estudiantes p { font-size: 12px; color: var(--suave-d); margin-top: 6px; }
+.empresa-estudiantes button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 16px; border-top: 1px solid var(--borde-d); text-align: left; }
+.empresa-estudiantes button.activo { background: #e8eef9; }
+.empresa-estudiantes button > span:nth-child(2) { flex: 1; }
+.empresa-estudiantes .siglas { width: 34px; height: 34px; border-radius: 50%; font-size: 12px; flex-shrink: 0; }
+.empresa-estudiantes strong { font-size: 12px; }
+.empresa-estudiantes small { display: block; margin-top: 6px; font-size: 11px; }
+.empresa-expediente-cabecera { display: flex; align-items: center; gap: 14px; }
+.empresa-expediente-cabecera p, .empresa-documento p, .empresa-nota p { color: var(--suave-d); font-size: 12px; line-height: 1.7; margin-top: 6px; }
+.empresa-progreso { margin-left: auto; text-align: right; }
+.empresa-progreso small { font-size: 10px; text-transform: uppercase; }
+.empresa-progreso strong { display: block; margin-top: 6px; color: var(--verde); }
+.empresa-documento { display: flex; align-items: center; gap: 14px; }
+.empresa-documento > div:nth-child(2) { flex: 1; min-width: 0; }
+.empresa-documento h3 { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.empresa-documento small { display: block; overflow-wrap: anywhere; }
+.empresa-doc-icono { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border-radius: 10px; background: #e8eef9; color: var(--azul); }
+.empresa-doc-icono svg { width: 20px; height: 20px; }
+.empresa-cargar { position: relative; overflow: hidden; }
+.empresa-cargar input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.empresa-aviso { font-size: 13px; color: var(--suave-d); line-height: 1.6; }
+.empresa-aviso:empty { display: none; }
+.empresa-preview iframe { width: 100%; height: 600px; border: 1px solid var(--borde-d); }
+.empresa-preview .hoja { max-width: 600px; margin: 16px auto 0; font-size: 14px; }
+.empresa-mensajes { height: calc(100dvh - 205px); min-height: 500px; }
+.empresa-mensajes .burbujas { overflow-wrap: anywhere; }
+.empresa-mensajes .btn-enviar:disabled { opacity: .5; cursor: default; }
+.empresa-perfil .perfil-principal header { padding-top: 200px; }
+.empresa-contacto { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; }
+.empresa-contacto dt { font-size: 12px; margin-bottom: 6px; }
+.empresa-contacto dd { font-size: 14px; overflow-wrap: anywhere; }
+@media (max-width: 1300px) {
+  .empresa-resumen { grid-template-columns: 1fr; }
+  .empresa-oferta { grid-template-columns: 45px minmax(0,1fr); }
+  .empresa-oferta > .empresa-acciones { grid-column: 2; }
+  .empresa-documento { flex-wrap: wrap; }
+  .empresa-documento > .empresa-acciones { flex-basis: 100%; padding-left: 54px; }
+}
+@media (max-width: 1000px) {
+  .empresa-metricas { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .empresa-expedientes { grid-template-columns: 1fr; }
+  .empresa-estudiantes ul { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .empresa-estudiantes button { height: 100%; flex-wrap: wrap; }
+}
+@media (max-width: 700px) {
+  .empresa-dashboard .sidebar nav { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .empresa-roles { max-width: 280px; }
+  .empresa-encabezado { flex-wrap: wrap; }
+  .empresa-encabezado h2 { font-size: 22px; }
+  .empresa-campos, .empresa-contacto { grid-template-columns: 1fr; }
+  .empresa-estudiantes ul { grid-template-columns: 1fr; }
+  .empresa-filas li { flex-wrap: wrap; }
+  .empresa-filas .empresa-match { margin-left: auto; }
+  .empresa-candidato { grid-template-columns: 36px minmax(0,1fr); }
+  .empresa-candidato-estado { grid-column: 2; display: flex; justify-content: space-between; width: 100%; gap: 12px; }
+  .empresa-candidato .siglas { width: 36px; height: 36px; font-size: 12px; }
+  .empresa-expediente-cabecera { flex-wrap: wrap; }
+  .empresa-mensajes { height: auto; min-height: 0; }
+  .empresa-mensajes .chat { height: 580px; }
+  .empresa-mensajes .chat > header { padding: 14px; gap: 8px; }
+  .empresa-mensajes .chat > header h3 { font-size: 14px; }
+  .empresa-mensajes .en-linea { grid-column: 2; grid-row: auto; justify-self: start; }
+  .empresa-mensajes .burbuja { max-width: 92%; }
+}

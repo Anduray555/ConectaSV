@@ -987,3 +987,51 @@
   .oferta > .tipo { grid-column: 2; grid-row: auto; justify-self: start; }
   .oferta .info { flex-wrap: wrap; }
 }
+
+/* Expediente de servicio social del estudiante. Estilos limitados a esta vista. */
+.expediente-ss { --acento-ss: #6860fa; display: grid; gap: 18px; max-width: 922px; margin: 0 auto; padding-bottom: 24px; color: #101828; }
+.expediente-encabezado { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 6px; }
+.expediente-antetitulo { margin-bottom: 10px !important; color: var(--acento-ss); font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.expediente-encabezado h2 { margin-bottom: 4px; font-size: 22px; line-height: 1.3; letter-spacing: -.8px; }
+.expediente-descripcion { max-width: 560px; color: var(--suave-d); font-size: 13px; line-height: 1.5; }
+.expediente-completo, .expediente-disponible { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: #ecfdf5; color: #008675; font-size: 11px; white-space: nowrap; }
+.expediente-completo { padding: 8px 12px; }
+.expediente-completo > span { font-size: 16px; line-height: 1; }
+.expediente-proyecto { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid var(--borde-d); border-radius: 11px; background: white; }
+.expediente-logo { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px; background: #1b3a6b; color: white; font-size: 14px; font-weight: 700; }
+.expediente-empresa { flex: 1; min-width: 0; }
+.expediente-empresa h3 { margin-bottom: 4px; font-size: 14px; font-weight: 600; }
+.expediente-empresa p, .expediente-proyecto dl { font-size: 12px; line-height: 1.5; }
+.expediente-empresa p, .expediente-proyecto dt { color: var(--suave-d); }
+.expediente-proyecto dl { display: flex; gap: 28px; min-width: 263px; }
+.expediente-documentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.expediente-documento { display: flex; flex-direction: column; min-width: 0; padding: 18px; border: 1px solid var(--borde-d); border-radius: 11px; background: white; }
+.expediente-documento-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 20px; }
+.expediente-icono { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #eef1ff; color: var(--acento-ss); }
+.expediente-icono svg { width: 18px; height: 18px; stroke-width: 1.7; }
+.expediente-disponible { padding: 4px 8px; gap: 5px; }
+.expediente-disponible::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+.expediente-numero { margin-bottom: 10px !important; color: #52627a; font-size: 10px; text-transform: uppercase; }
+.expediente-documento h3 { margin-bottom: 10px; font-size: 16px; letter-spacing: -.5px; }
+.expediente-documento-descripcion { flex: 1; margin-bottom: 18px !important; color: var(--suave-d); font-size: 12px; line-height: 1.8; }
+.expediente-metadatos { display: flex; justify-content: space-between; gap: 8px; padding-top: 16px; margin-bottom: 14px; border-top: 1px solid var(--borde-d); color: var(--suave-d); font-size: 10px; }
+.expediente-acciones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.expediente-acciones button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 38px; padding: 8px 4px; border: 1px solid var(--acento-ss); border-radius: 6px; color: var(--acento-ss); font-size: 12px; font-weight: 600; }
+.expediente-acciones .expediente-descargar { background: var(--acento-ss); color: white; }
+.expediente-acciones svg { width: 15px; height: 15px; flex-shrink: 0; }
+.expediente-acciones button:hover { background: #f0eeff; }
+.expediente-acciones .expediente-descargar:hover { background: #554cde; }
+.expediente-acciones button:focus-visible { outline: 3px solid #b8b3ff; outline-offset: 3px; }
+.expediente-ayuda { display: flex; align-items: flex-start; gap: 12px; padding: 15px; border: 1px solid #fbd86a; border-radius: 11px; background: #fffbeb; }
+.expediente-ayuda > span { display: grid; place-items: center; flex-shrink: 0; width: 29px; height: 29px; border-radius: 10px; background: #fef3c7; color: #b45309; font-size: 14px; font-weight: 700; }
+.expediente-ayuda h3 { margin-bottom: 5px; font-size: 12px; font-weight: 600; }
+.expediente-ayuda p { color: #b45309; font-size: 10px; line-height: 1.6; }
+.expediente-aviso { color: var(--suave-d); font-size: 12px; line-height: 1.6; }
+.expediente-aviso:empty { display: none; }
+@media (max-width: 1150px) { .expediente-documentos { grid-template-columns: 1fr; } .expediente-documento-descripcion { min-height: 0; } .expediente-proyecto { flex-wrap: wrap; } .expediente-proyecto dl { flex-basis: 100%; padding-left: 58px; } }
+@media (max-width: 700px) { .expediente-encabezado { flex-direction: column; gap: 14px; } .expediente-encabezado h2 { font-size: 21px; } .expediente-proyecto dl { min-width: 0; padding-left: 0; flex-wrap: wrap; gap: 14px 24px; } }
+
+/* Acceso a las vistas locales de demostración por rol. */
+.roles a { flex: 1; padding: 8px 6px; border-radius: 7px; color: #dce6ff; font-size: 12px; text-decoration: none; text-align: center; }
+.roles a:first-child { background: white; color: var(--azul); }
+.roles a:focus-visible { outline: 3px solid white; outline-offset: 2px; }
