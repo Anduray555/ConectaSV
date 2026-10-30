@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { IconBuscar, IconEnviar } from '../../assets/icons/dashboard/Iconos'
 // TODO API: cargar las conversaciones del usuario autenticado.
-import { conversacionesMock } from '../../data/dashboard.mock'
+import { useOutletContext } from 'react-router-dom'
 
 function Mensajes() {
-  const [conversaciones, setConversaciones] = useState(() => structuredClone(conversacionesMock))
-  const [activaId, setActivaId] = useState(conversacionesMock[0]?.id ?? null)
+  const { conversaciones } = useOutletContext()
+  const [aviso, setAviso] = useState('')
+  const [activaId, setActivaId] = useState(null)
   const [busqueda, setBusqueda] = useState('')
   const [texto, setTexto] = useState('')
 
-  const activa = conversaciones.find((c) => c.id === activaId)
+  const activa = conversaciones.find((c) => c.id === activaId) ?? conversaciones[0]
   const lista = conversaciones.filter((c) =>
     c.empresa.toLowerCase().includes(busqueda.toLowerCase())
   )
@@ -18,16 +19,9 @@ function Mensajes() {
     e.preventDefault()
     if (!texto.trim()) return
 
-    // TODO API: enviar el mensaje al backend; actualmente solo se guarda en memoria.
-    const nuevo = { id: Date.now(), de: 'yo', texto, hora: 'ahora' }
+    // TODO API: enviar el mensaje y actualizar el historial con la respuesta del servidor.
+    setAviso('El envío de mensajes aún no está conectado.')
 
-    // Nunca se modifica el estado directamente: se crea una copia con el cambio
-    setConversaciones(
-      conversaciones.map((c) =>
-        c.id === activaId ? { ...c, mensajes: [...c.mensajes, nuevo] } : c
-      )
-    )
-    setTexto('')
   }
 
   return (
@@ -50,22 +44,23 @@ function Mensajes() {
             <li key={c.id}>
               <button
                 type="button"
-                className={c.id === activaId ? 'activo' : ''}
+                className={c.id === activa?.id ? 'activo' : ''}
                 onClick={() => setActivaId(c.id)}
               >
                 <b className="siglas" style={{ background: c.color }}>{c.siglas}</b>
                 <strong>{c.empresa}</strong>
                 <small className="hora">{c.hora}</small>
                 <small className="vacante">{c.vacante}</small>
-                <small className="preview">{c.mensajes.at(-1).texto}</small>
+                <small className="preview">{c.mensajes.at(-1)?.texto}</small>
                 {c.sinLeer > 0 && <small className="insignia">{c.sinLeer}</small>}
               </button>
             </li>
           ))}
         </ul>
+        {lista.length === 0 && <p className="vacio">Sin conversaciones.</p>}
       </aside>
 
-      <section className="chat">
+      {activa ? <section className="chat">
         <header>
           <b className="siglas" style={{ background: activa.color }}>{activa.siglas}</b>
           <h3>{activa.empresa}</h3>
@@ -91,11 +86,12 @@ function Mensajes() {
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Escribe un mensaje..."
           />
-          <button type="submit" className="btn-enviar">
+          <button type="submit" className="btn-enviar" disabled={!texto.trim()}>
             <IconEnviar /> Enviar
           </button>
         </form>
-      </section>
+        <p role="status">{aviso}</p>
+      </section> : <p className="vacio">Selecciona una conversación.</p>}
     </section>
   )
 }

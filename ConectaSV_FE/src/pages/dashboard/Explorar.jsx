@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 import TarjetaOferta from '../../components/dashboard/TarjetaOferta'
 import { IconBuscar } from '../../assets/icons/dashboard/Iconos'
 // TODO API: cargar las oportunidades y adaptar la respuesta al formato de las tarjetas.
-import { ofertasMock as ofertas } from '../../data/dashboard.mock'
+
 
 const filtros = [
   { valor: 'todas', texto: 'Todas' },
@@ -12,6 +13,7 @@ const filtros = [
 ]
 
 function Explorar() {
+  const { ofertas } = useOutletContext()
   const [filtro, setFiltro] = useState('todas')
   const [busqueda, setBusqueda] = useState('')
 

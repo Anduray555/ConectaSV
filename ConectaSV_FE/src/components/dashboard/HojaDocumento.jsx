@@ -3,14 +3,6 @@ function formatear(fecha) {
   return new Date(`${fecha}T00:00:00`).toLocaleDateString('es-SV')
 }
 
-// Reparto de horas del plan de trabajo (porcentaje de cada fase)
-const fases = [
-  ['Inducción y diagnóstico', 0.1],
-  ['Desarrollo del proyecto', 0.6],
-  ['Pruebas y ajustes', 0.2],
-  ['Documentación y cierre', 0.1],
-]
-
 function HojaDocumento({ doc, datos }) {
   const hoy = new Date().toLocaleDateString('es-SV', {
     day: 'numeric',
@@ -22,7 +14,7 @@ function HojaDocumento({ doc, datos }) {
     <article className="hoja">
       {doc === 'carta' && (
         <>
-          <p className="derecha">San Salvador, {hoy}</p>
+          <p className="derecha">{datos.ciudad ? `${datos.ciudad}, ` : ''}{hoy}</p>
           <address>
             Señores<br />
             <strong>{datos.institucion}</strong><br />
@@ -80,10 +72,10 @@ function HojaDocumento({ doc, datos }) {
               </tr>
             </thead>
             <tbody>
-              {fases.map(([nombre, porcentaje]) => (
-                <tr key={nombre}>
+              {(datos.actividades ?? []).map(({ nombre, horas }, indice) => (
+                <tr key={indice}>
                   <td>{nombre}</td>
-                  <td>{Math.round(datos.horas * porcentaje)}</td>
+                  <td>{horas}</td>
                 </tr>
               ))}
             </tbody>

@@ -12,14 +12,16 @@ const tipos = [
     valor: 'estudiante',
     texto: 'Soy estudiante',
     icono: <Escuela />,
-    placeholderNombre: 'Andrea Guadalupe Martínez',
+    placeholderNombres: 'Andrea Guadalupe',
+    placeholderApellidos: 'Martínez López',
     placeholderCorreo: 'andrea@ues.edu.sv',
   },
   {
     valor: 'empresa',
     texto: 'Soy empresa',
     icono: <Edificio />,
-    placeholderNombre: 'María Elena González (representante)',
+    placeholderNombres: 'María Elena',
+    placeholderApellidos: 'González Pérez',
     placeholderCorreo: 'rrhh@empresa.com.sv',
   },
 ]
@@ -43,7 +45,7 @@ function Register() {
   }
 
   return (
-    <div className="login">
+    <div className="login registro">
       <PanelAuth
         badge="ÚNETE HOY — ES GRATIS"
         titulo="El talento salvadoreño merece las mejores oportunidades."
@@ -85,12 +87,26 @@ function Register() {
             </div>
 
             <form onSubmit={handleContinuar}>
+              <div className="registro-nombre">
+                <div>
               <Campo
-                id="registro_nombre"
-                label="Nombre completo"
+                id="registro_nombres"
+                label="Nombres"
                 icono={<Usuario />}
-                placeholder={actual.placeholderNombre}
+                placeholder={actual.placeholderNombres}
+                autoComplete="given-name"
               />
+                </div>
+                <div>
+              <Campo
+                id="registro_apellidos"
+                label="Apellidos"
+                icono={<Usuario />}
+                placeholder={actual.placeholderApellidos}
+                autoComplete="family-name"
+              />
+                </div>
+              </div>
               <Campo
                 id="registro_correo"
                 label="Correo electrónico"

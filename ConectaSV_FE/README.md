@@ -18,57 +18,52 @@ You can also try [the experimental native React Compiler support in plugin-react
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
-## Datos de ejemplo del Dashboard
+## Dashboards preparados para el backend
 
-Todos los registros ficticios están en `src/data/dashboard.mock.js`:
+Los dashboards de estudiante y empresa inician con estructuras vacías en `src/data/estadoDashboard.js`. Se eliminaron los archivos de registros ficticios. Los menús, filtros, tipos de oferta y tipos de documento siguen siendo configuración de la interfaz.
 
-| Exportación | Consumidor | Datos que deberá proporcionar el backend |
-| --- | --- | --- |
-| `ofertasMock` | Explorar | Oportunidades y datos de las empresas |
-| `conversacionesMock` | Mensajes y DashboardLayout | Conversaciones, mensajes y contador sin leer |
-| `perfilMock` | MiPerfil y DashboardLayout | Perfil, habilidades y estadísticas del estudiante |
-| `documentosSSMock` | DocumentosSS | Datos del estudiante, institución y proyecto |
-| `sesionDashboardMock` | DashboardLayout | Rol del usuario y ciclo académico |
+### Entrada de datos
 
-Buscar `TODO API` en `src` permite localizar los puntos de integración. Buscar `Mock` permite localizar el uso de datos ficticios. El panel muestra un aviso de datos de ejemplo.
+`DashboardLayout` y `EmpresaLayout` mantienen el estado compartido `datos` y exponen `setDatos` mediante el contexto de `Outlet`. Conectar allí las consultas de la sesión autenticada y adaptar sus respuestas a estos modelos. Las vistas hijas consumen `useOutletContext()`.
 
-Al integrar el backend:
+- **Estudiante:** `perfil`, `sesion`, `ofertas`, `conversaciones`, `expediente`.
+- **Empresa:** `empresa`, `ofertas`, `candidatos`, `expedientes`, `conversaciones`, `resumen`.
+- **Ausencia de información:** listas `[]`, campos de formularios `''`, expediente `null`, totales/plan/verificación `null`. Un total desconocido muestra `—`; un cero confirmado debe llegar como `0`.
+- Mantener todos los campos del modelo inicial al adaptar respuestas parciales. Los arrays de habilidades, etiquetas, sectores y mensajes deben existir aunque estén vacíos.
 
-1. Crear servicios para las peticiones cuando estén definidos los endpoints y la autenticación. Los campos actuales describen el formato que consumen las vistas; no constituyen un contrato definitivo de la API.
-2. Reemplazar las importaciones mock por los resultados de esos servicios, adaptando las respuestas al formato de las vistas. Añadir estados de carga, error y datos vacíos; Mensajes necesita manejar la ausencia de conversación activa.
-3. Conectar el envío de mensajes y la persistencia de los formularios. Actualmente los mensajes y los cambios de documentos solo viven en el estado local y se pierden al salir de la vista o recargar. El botón Editar perfil todavía no tiene acción.
-4. Actualizar el contador de mensajes a partir de los datos reales y retirar el aviso de ejemplo. Eliminar el archivo mock cuando ya no tenga consumidores.
+### Formatos consumidos por las vistas
 
-`src/data/dashboard.js` contiene etiquetas de tipos de oferta. Los menús, filtros, campos del formulario y fases del documento son configuración de la interfaz, separada de los registros ficticios.
+Los siguientes campos describen el modelo de presentación, no endpoints ni un contrato obligatorio del servidor:
 
-## Vistas de empresa (demostración local)
-
-Acceder a `/empresa` o usar el enlace **Empresa** del panel de estudiante.
-
-- `/empresa/dashboard`: métricas calculadas a partir de los datos de ejemplo, aplicantes recientes y ofertas activas.
-- `/empresa/ofertas`: crear, editar, pausar, activar y eliminar ofertas con confirmación local.
-- `/empresa/candidatos`: filtros por oferta y estado; los filtros se conservan en la URL.
-- `/empresa/documentos`: selección de estudiante, progreso de los tres tipos de documento, plantillas de ejemplo y carga/vista previa de PDF (máximo 10 MB).
-- `/empresa/mensajes`: búsqueda de candidatos, conversaciones y envío temporal de mensajes.
-- `/empresa/perfil`: información y edición temporal del perfil de empresa.
-
-Los datos se definen en `src/data/empresa.mock.js`. `EmpresaLayout` mantiene el estado compartido entre las rutas; se reinicia al recargar o salir del panel de empresa. Los archivos PDF cargados permanecen solo en memoria y sus URLs se liberan al salir del panel. La vista de un documento precargado es una plantilla de demostración, no un PDF oficial.
-
-Buscar `TODO BACKEND` en el layout y las páginas de empresa para localizar las consultas y operaciones pendientes. El selector de rol sirve solo para navegar durante la demostración; la autenticación, autorización y verificación de empresa deberán provenir del backend.
-
-### Puntos de integración marcados en el código
-
-Todos los pendientes de las vistas de empresa se localizan buscando `TODO BACKEND`:
-
-| Archivo | Sustituciones pendientes |
+| Colección/objeto | Campos |
 | --- | --- |
-| `src/App.jsx` y layouts | Sesión y rol, autorización, carga/error, perfil, plan, verificación, contador real de mensajes y retirada de avisos de demostración |
-| `src/data/empresa.mock.js` | Todas las fuentes ficticias, campos/ids reales y mapeo de tipos de documento |
-| `src/pages/empresa/DashboardEmpresa.jsx` | Totales globales, entrevistas reales, orden por fecha y resumen de ofertas/aplicantes |
-| `src/pages/empresa/OfertasEmpresa.jsx` | Consultas, paginación, contrato del formulario, crear/editar/eliminar/pausar/activar, validación y confirmación de persistencia |
-| `src/pages/empresa/CandidatosEmpresa.jsx` | Postulaciones, filtros y totales del servidor, estados, compatibilidad y relación con la oferta |
-| `src/pages/empresa/DocumentosEmpresa.jsx` | Expedientes reales, estados de archivo, carga/reemplazo/generación, validación y acceso al PDF; retirada de plantillas y valores fijos |
-| `src/pages/empresa/MensajesEmpresa.jsx` | Conversaciones/historial, búsqueda, remitentes, envío, lecturas, presencia y sincronización |
-| `src/pages/empresa/PerfilEmpresa.jsx` | Estadísticas globales, contrato de perfil, actualización y errores por campo |
+| Oferta de estudiante | `id`, `titulo`, `empresa`, `siglas`, `color`, `ubicacion`, `salario`, `tipo` (`empleo`, `practica`, `servicio`), `etiquetas`, `publicado`, `aplicantes` |
+| Oferta de empresa | `id`, `titulo`, `ubicacion`, `salario`, `tipo` (etiqueta visible), `etiquetas`, `descripcion`, `publicado`, `activa` |
+| Candidato | `id`, `nombre`, `siglas`, `carrera`, `universidad`, `ofertaId`, `estado`, `match`, `habilidades` |
+| Conversación | `id`, `empresa` (nombre del interlocutor), `siglas`, `color`, `vacante`, `hora`, `sinLeer`, `enLinea`, `mensajes` |
+| Mensaje | `id`, `de` (`yo` o `empresa`, clase visual de recibido), `texto`, `hora` |
+| Expediente de estudiante | `empresa`, `siglas`, `proyecto`, `periodo`, `horas`, `documentos` |
+| Expediente de empresa | `estudianteId`, `estudiante` (opcional: nombre y siglas), `proyecto`, `documentos` |
+| Documento | Diccionario por tipo `carta`, `proyecto`, `plan`; cada documento contiene `url`, `nombre`, `fecha`, `peso`, `fuente` |
 
-Los comentarios describen operaciones necesarias sin inventar endpoints. La selección de pestañas, borradores y apertura/cierre de formularios puede seguir siendo estado de interfaz. Los mensajes de éxito y la actualización de registros deben depender de la respuesta del servidor. El backend también debe comprobar permisos y validar los datos/archivos recibidos.
+Los campos de perfil, sesión y resumen están explícitos en `estadoDashboard.js`. Las métricas globales de empresa provienen de `resumen`, evitando confundir una página de candidatos con los totales reales. Los tres espacios de documentos se conservan incluso sin expediente. Las URLs deben corresponder a archivos autorizados y disponibles.
+
+### Operaciones pendientes
+
+Los formularios conservan sus campos, validaciones y borradores. Guardar perfiles/ofertas, eliminar, cambiar estado, enviar mensajes, generar y cargar PDFs aún no hacen peticiones ni crean registros locales. Muestran que la operación no está conectada, sin confirmar éxito ni limpiar el borrador. El botón de edición de estudiante permanece deshabilitado hasta implementar su formulario/operación.
+
+Buscar `TODO API` y `TODO BACKEND` en `src`. Conectar las operaciones y actualizar el estado solo con respuestas confirmadas. Incorporar carga, errores y reintentos al definir las peticiones. La sesión, autorización por rol, verificación, plan, lecturas y presencia deben provenir del backend. Los enlaces entre dashboards únicamente navegan; no autorizan acceso.
+
+La landing mantiene su contenido de presentación y su vista de ejemplo en `src/data/landing.js`, independiente de ambos dashboards.
+
+### Verificación
+
+Con una versión de Node compatible con Vite, ejecutar:
+
+```sh
+npm run lint
+npm run build
+node tests/dashboard-render.mjs
+```
+
+La prueba renderiza las diez rutas de dashboard sin registros y comprueba ausencia de datos ficticios, espacios de documentos y totales desconocidos.

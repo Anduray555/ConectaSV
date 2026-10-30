@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ofertasMock } from '../../data/dashboard.mock'
+import { ofertasPresentacion } from '../../data/landing'
 
 const estadísticas = [
   { numero: '2400+', texto: 'Estudiantes registrados' },
@@ -30,7 +30,7 @@ function Hero() {
             <div className="preview-heading"><div><span className="preview-eyebrow">TU ESPACIO DE OPORTUNIDADES</span><h2>Tu siguiente capítulo.</h2></div><span className="preview-avatar">SV</span></div>
             <div className="preview-metrics"><article><span>OPORTUNIDADES</span><strong>347 <small>↗</small></strong></article><article><span>EMPRESAS</span><strong>120<span className="metric-plus">+</span></strong></article></div>
             <div className="preview-list-label"><span>Explora posibilidades</span><span>↗</span></div>
-            {ofertasMock.slice(0, 3).map((oferta) => <article className="preview-job" key={oferta.id}><span className="preview-job-icon">{oferta.empresa.slice(0, 2).toUpperCase()}</span><div><h3>{oferta.titulo}</h3><p>{oferta.empresa}</p></div><span className="preview-job-arrow" aria-hidden="true">↗</span></article>)}
+            {ofertasPresentacion.slice(0, 3).map((oferta) => <article className="preview-job" key={oferta.id}><span className="preview-job-icon">{oferta.empresa.slice(0, 2).toUpperCase()}</span><div><h3>{oferta.titulo}</h3><p>{oferta.empresa}</p></div><span className="preview-job-arrow" aria-hidden="true">↗</span></article>)}
             <Link className="preview-link" to="/registro">Encuentra tu oportunidad <span aria-hidden="true">→</span></Link>
           </div>
         </div>

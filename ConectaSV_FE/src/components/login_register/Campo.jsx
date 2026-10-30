@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Candado, Ojo } from "../../assets/icons/landing/Svg_Icons"
 
-export function Campo({ id, label, icono, type = "text", placeholder, requerido = true }) {
+export function Campo({ id, label, icono, type = "text", placeholder, requerido = true, autoComplete }) {
   return (
     <>
       <label htmlFor={id}>{label}</label>
       <div className="campo">
         {icono}
-        <input type={type} id={id} name={id} placeholder={placeholder} required={requerido} />
+        <input type={type} id={id} name={id} placeholder={placeholder} required={requerido} autoComplete={autoComplete} />
       </div>
     </>
   )

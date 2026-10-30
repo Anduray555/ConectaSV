@@ -1,22 +1,25 @@
+import { useState } from 'react'
 import { NavLink, Outlet, useLocation, Link } from 'react-router-dom'
 import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil } from '../assets/icons/dashboard/Iconos'
 import { Logo } from '../components/Logo'
 // TODO API: obtener la sesión, el perfil y el contador de mensajes sin leer.
-import { perfilMock, sesionDashboardMock, conversacionesMock } from '../data/dashboard.mock'
+import { crearEstadoEstudiante } from '../data/estadoDashboard'
 import '../styles/dashboard.css'
 
-const mensajesSinLeerMock = conversacionesMock.reduce((total, c) => total + c.sinLeer, 0)
 
 // "texto" es lo que se ve en la sidebar; "titulo" lo que se ve en la barra superior
 const menu = [
   { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
-  { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: mensajesSinLeerMock },
+  { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes /> },
   { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
   { to: '/dashboard/perfil', texto: 'Mi Perfil', titulo: 'Mi Perfil', icono: <IconPerfil /> },
 ]
 
 function DashboardLayout() {
-  const { rol, ciclo } = sesionDashboardMock
+  // TODO BACKEND: cargar la sesión y los datos del estudiante; actualizar con setDatos.
+  const [datos, setDatos] = useState(crearEstadoEstudiante)
+  const { perfil, sesion: { rol, ciclo, activa }, conversaciones } = datos
+  const sinLeer = conversaciones.reduce((total, c) => total + (c.sinLeer ?? 0), 0)
   const { pathname } = useLocation()
   const actual = menu.find((item) => item.to === pathname)
 
@@ -30,8 +33,8 @@ function DashboardLayout() {
 
 
 
-        {/* TODO BACKEND: este selector permite navegar por la demostración; sustituirlo por
-            navegación acorde al rol de la sesión, sin permitir cambiar permisos desde la UI. */}
+        {/* TODO BACKEND: adaptar este selector a la
+            navegación según el rol de la sesión, sin permitir cambiar permisos desde la UI. */}
         <div className="roles"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard">Empresa</Link></div>
         <nav>
           {menu.map((item) => (
@@ -42,16 +45,16 @@ function DashboardLayout() {
             >
               {item.icono}
               {item.texto}
-              {item.insignia && <small>{item.insignia}</small>}
+              {item.to === '/dashboard/mensajes' && sinLeer > 0 && <small>{sinLeer}</small>}
             </NavLink>
           ))}
           <Link to="/">Inicia sesión</Link>
         </nav>
 
         <footer className="usuario">
-          <b>{perfilMock.siglas}</b>
-          <strong>{perfilMock.nombre}</strong>
-          <small>{rol} · {perfilMock.universidad}</small>
+          <b>{perfil.siglas}</b>
+          <strong>{perfil.nombre || 'Perfil sin cargar'}</strong>
+          <small>{[rol, perfil.universidad].filter(Boolean).join(' · ') || '—'}</small>
         </footer>
       </aside>
 
@@ -59,15 +62,13 @@ function DashboardLayout() {
         <header className="barra">
           <h1>{actual?.titulo}</h1>
           <ul>
-            <li>Ciclo {ciclo}</li>
-            <li className="activo">{rol} activo</li>
+            {ciclo && <li>Ciclo {ciclo}</li>}
+            {rol && <li className={activa ? 'activo' : undefined}>{rol}{activa === true ? ' activo' : ''}</li>}
           </ul>
         </header>
 
         <section className="contenido">
-          {/* TODO API: retirar este aviso cuando los datos provengan del backend. */}
-          <p className="aviso-datos-ejemplo">Datos de ejemplo · La conexión con el backend está pendiente. Los cambios son temporales.</p>
-          <Outlet />
+          <Outlet context={{ ...datos, setDatos }} />
         </section>
       </section>
     </div>

@@ -6,7 +6,7 @@ import { Link, useOutletContext } from 'react-router-dom'
 const vacia = { titulo: '', ubicacion: '', salario: '', tipo: 'Empleo', etiquetas: [], descripcion: '', activa: true }
 
 export default function OfertasEmpresa() {
-  const { empresa, ofertas, setOfertas, candidatos } = useOutletContext()
+  const { empresa, ofertas, candidatos } = useOutletContext()
   const [edicion, setEdicion] = useState(null)
   const [eliminarId, setEliminarId] = useState(null)
   const [aviso, setAviso] = useState('')
@@ -15,19 +15,15 @@ export default function OfertasEmpresa() {
     const datos = { ...edicion, titulo: edicion.titulo.trim(), ubicacion: edicion.ubicacion.trim() }
     if (!datos.titulo || !datos.ubicacion) return
     // TODO BACKEND: crear/actualizar la oferta y usar el id devuelto por la API.
-    // Sustituir crypto.randomUUID()/«Ahora» por id y fecha del servidor. Mostrar validaciones
+    // Obtener id y fecha del servidor. Mostrar validaciones
     // y errores, bloquear envíos duplicados y cerrar/avisar éxito solo al guardar correctamente.
-    setOfertas((actuales) => datos.id ? actuales.map((o) => o.id === datos.id ? datos : o) : [{ ...datos, id: crypto.randomUUID(), publicado: 'Ahora' }, ...actuales])
-    setAviso('Oferta guardada en esta demostración.')
-    setEdicion(null)
+    setAviso('El guardado de ofertas aún no está conectado. Tus cambios no se han guardado.')
   }
-  function eliminar(id) {
-    // TODO BACKEND: eliminar o archivar la oferta tras confirmar; gestionar candidatos asociados.
-    // Retirar la tarjeta solo tras la respuesta exitosa y mostrar errores/restricciones del servidor.
-    setOfertas((actuales) => actuales.filter((o) => o.id !== id))
-    setEliminarId(null)
-    setAviso('Oferta eliminada de la demostración.')
+  function eliminar() {
+    // TODO BACKEND: eliminar por eliminarId y actualizar el listado tras confirmar la API.
+    setAviso('La eliminación de ofertas aún no está conectada.')
   }
+
   return <section className="empresa-vista">
     <header className="empresa-encabezado"><div><h2>Gestión de Ofertas</h2><p>Crea, edita y administra tus publicaciones activas.</p></div><button className="empresa-btn" onClick={() => setEdicion({ ...vacia })}>+ Nueva oferta</button></header>
     {edicion && <form className="tarjeta empresa-form" onSubmit={guardar} aria-label={edicion.id ? 'Editar oferta' : 'Nueva oferta'}><h3>{edicion.id ? 'Editar oferta' : 'Nueva oferta'}</h3>
@@ -45,9 +41,9 @@ export default function OfertasEmpresa() {
       <div className="empresa-acciones"><span className={`empresa-estado ${o.activa ? 'estado-aceptado' : 'estado-pendiente'}`}>{o.activa ? 'Activa' : 'Pausada'}</span><button className="empresa-btn-secundario" onClick={() => {
         // TODO BACKEND: actualizar el estado de publicación de la oferta.
         // Reflejar el estado confirmado por la API y gestionar carga, error y permisos de publicación.
-        setOfertas((actuales) => actuales.map((item) => item.id === o.id ? { ...item, activa: !item.activa } : item))
+        setAviso('El cambio de estado de ofertas aún no está conectado.')
       }}>{o.activa ? 'Pausar' : 'Activar'}</button><button className="empresa-btn-secundario" onClick={() => setEdicion({ ...o })}>Editar</button><button className="empresa-btn-peligro" onClick={() => setEliminarId(o.id)}>Eliminar</button></div>
-      {eliminarId === o.id && <div className="empresa-confirmacion"><p>¿Eliminar la oferta «{o.titulo}» de esta demostración?</p><button className="empresa-btn-peligro" onClick={() => eliminar(o.id)}>Sí, eliminar</button><button className="empresa-btn-secundario" onClick={() => setEliminarId(null)}>Cancelar</button></div>}
+      {eliminarId === o.id && <div className="empresa-confirmacion"><p>¿Eliminar la oferta «{o.titulo}»?</p><button className="empresa-btn-peligro" onClick={() => eliminar()}>Sí, eliminar</button><button className="empresa-btn-secundario" onClick={() => setEliminarId(null)}>Cancelar</button></div>}
     </article>)}
     {ofertas.length === 0 && <p className="vacio">No tienes ofertas. Publica tu primera oportunidad.</p>}
   </section>
