@@ -39,7 +39,7 @@ export default function EmpresaLayout() {
       <aside className="sidebar">
         <header className="marca"><Logo /></header>
         {/* TODO BACKEND: adaptar el cambio de dashboard al rol autorizado. */}
-        <div className="empresa-roles" aria-label="Cambiar de dashboard"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard" aria-current="page">Empresa</Link></div>
+        <div className="empresa-roles" aria-label="Cambiar de dashboard"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard" aria-current="page">Empresa</Link><Link to="/admin/dashboard">Admin</Link></div>
         <nav aria-label="Navegación de empresa">{menu.map(({ ruta, titulo, Icono }) => <NavLink key={ruta} to={`/empresa/${ruta}`} className={({ isActive }) => isActive ? 'activo' : ''}><Icono />{titulo}{ruta === 'mensajes' && sinLeer > 0 && <small>{sinLeer}</small>}</NavLink>)}</nav>
         {/* TODO BACKEND: mostrar nombre/logo y verificación reales; contemplar empresa no verificada. */}
         <footer className="usuario"><b>{empresa.siglas}</b><strong>{empresa.nombre || 'Perfil sin cargar'}</strong><small>{empresa.verificada === true ? 'Empresa verificada' : empresa.verificada === false ? 'Sin verificar' : '—'}</small></footer>

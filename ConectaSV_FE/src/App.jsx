@@ -17,6 +17,10 @@ import CandidatosEmpresa from './pages/empresa/CandidatosEmpresa'
 import DocumentosEmpresa from './pages/empresa/DocumentosEmpresa'
 import MensajesEmpresa from './pages/empresa/MensajesEmpresa'
 import PerfilEmpresa from './pages/empresa/PerfilEmpresa'
+import AdminLayout from './layouts/AdminLayout'
+import PanelAdmin from './pages/admin/PanelAdmin'
+import SoporteAdmin from './pages/admin/SoporteAdmin'
+import UsuariosAdmin from './pages/admin/UsuariosAdmin'
 
 function App() {
   return (
@@ -43,6 +47,14 @@ function App() {
         <Route path="documentos" element={<DocumentosEmpresa />} />
         <Route path="mensajes" element={<MensajesEmpresa />} />
         <Route path="perfil" element={<PerfilEmpresa />} />
+      </Route>
+      {/* TODO BACKEND: proteger /admin con sesión y rol administrativo reales;
+          validar permisos también en todos los endpoints, no solo en el router. */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<PanelAdmin />} />
+        <Route path="soporte" element={<SoporteAdmin />} />
+        <Route path="usuarios" element={<UsuariosAdmin />} />
       </Route>
     </Routes>
   )

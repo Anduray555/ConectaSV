@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             UniversitySeeder::class,
             TagCategorySeeder::class,
+            AdminSeeder::class,
+            CareerSeeder::class,
         ]);
     }
 }

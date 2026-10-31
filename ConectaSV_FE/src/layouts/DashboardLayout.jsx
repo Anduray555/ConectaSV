@@ -35,7 +35,7 @@ function DashboardLayout() {
 
         {/* TODO BACKEND: adaptar este selector a la
             navegación según el rol de la sesión, sin permitir cambiar permisos desde la UI. */}
-        <div className="roles"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard">Empresa</Link></div>
+        <div className="roles"><Link to="/dashboard/explorar">Estudiante</Link><Link to="/empresa/dashboard">Empresa</Link><Link to="/admin/dashboard">Admin</Link></div>
         <nav>
           {menu.map((item) => (
             <NavLink
