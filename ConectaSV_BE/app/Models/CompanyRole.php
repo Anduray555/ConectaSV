@@ -7,6 +7,9 @@ use Illuminate\Database\eloquent\Relations\HasMany;
 
 class CompanyRole extends Model
 {
+    public const OWNER = 'owner';
+    public const RECRUITER = 'recruiter';
+
     protected $fillable = ['name'];
 
     public function companyMembers(): HasMany
