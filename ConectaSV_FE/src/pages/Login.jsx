@@ -2,14 +2,34 @@ import { Link, useNavigate } from "react-router-dom"
 import { Google, Microsoft, Correo } from "../assets/icons/landing/Svg_Icons.jsx"
 import PanelAuth from "../components/login_register/PanelAuth.jsx"
 import { Campo, CampoPassword } from "../components/login_register/Campo.jsx"
+import useAuth from "../hooks/useAuth.js"
+import { useState } from "react"
+import { parseApiError } from '../api/errors';
+import { homeFor } from "../utils/roleRoutes.js"
 import "../styles/auth.css"
 
 function Login() {
-  const navigate = useNavigate()
+  const { login } = useAuth();
+  const navigate = useNavigate(); 
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e) {
-    e.preventDefault()
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const credentials = Object.fromEntries(new FormData(e.currentTarget));
+
+    setError(null);
+    setSubmitting(true);
+
+    try {
+      const user = await login(credentials);
+      navigate(homeFor(user.role), { replace: true });
+    } catch (err) {
+      setError(parseApiError(err));
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="login">
@@ -34,6 +54,7 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <Campo
               id="login_correo"
+              name="email"
               label="Correo electrónico"
               icono={<Correo />}
               type="email"
@@ -41,6 +62,7 @@ function Login() {
             />
             <CampoPassword
               id="login_password"
+              name="password"
               label="Contraseña"
               placeholder="••••••••"
             />

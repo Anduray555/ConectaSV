@@ -159,32 +159,6 @@
   font-size: 13px;
 }
 
-.roles {
-  display: flex;
-  gap: 2px;
-  padding: 4px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, .22);
-}
-
-.roles li {
-  flex: auto;
-}
-
-.roles button {
-  width: 100%;
-  padding: 7px 6px;
-  border-radius: 9px;
-  color: #b7c6e3;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.roles button.activo {
-  background: #fff;
-  color: var(--azul);
-}
-
 .sidebar nav {
   display: grid;
   gap: 6px;
@@ -234,9 +208,7 @@
   grid-template-columns: 36px 1fr;
   column-gap: 12px;
   align-items: center;
-  margin-top: auto;
-  padding: 16px 8px 22px;
-  border-top: 1px solid rgba(255, 255, 255, .14);
+  padding: 12px 8px 22px;
 }
 
 .usuario b {
@@ -952,7 +924,6 @@
   .sidebar nav a { flex-direction: column; gap: 6px; padding: 10px 4px; font-size: 10px; text-align: center; border-left: 0; }
   .sidebar nav small { display: none; }
   .usuario { display: none; }
-  .roles { max-width: 280px; }
   .barra { padding: 20px 16px; flex-wrap: wrap; gap: 12px; }
   .contenido { padding: 16px; overflow: visible; }
   .filtros { flex-wrap: wrap; }
@@ -1019,7 +990,15 @@
 @media (max-width: 1150px) { .expediente-documentos { grid-template-columns: 1fr; } .expediente-documento-descripcion { min-height: 0; } .expediente-proyecto { flex-wrap: wrap; } .expediente-proyecto dl { flex-basis: 100%; padding-left: 58px; } }
 @media (max-width: 700px) { .expediente-encabezado { flex-direction: column; gap: 14px; } .expediente-encabezado h2 { font-size: 21px; } .expediente-proyecto dl { min-width: 0; padding-left: 0; flex-wrap: wrap; gap: 14px 24px; } }
 
-/* Acceso a las vistas locales de demostración por rol. */
-.roles a { flex: 1; padding: 8px 6px; border-radius: 7px; color: #dce6ff; font-size: 12px; text-decoration: none; text-align: center; }
-.roles a:first-child { background: white; color: var(--azul); }
-.roles a:focus-visible { outline: 3px solid white; outline-offset: 2px; }
+/* Parte inferior de la sidebar (CuentaSidebar.jsx): "Cerrar sesión" y, debajo, la cuenta.
+   margin-top: auto empuja todo el bloque al fondo de la sidebar, que es un flex en columna. */
+.cuenta { display: grid; gap: 4px; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.sidebar-link { display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 14px; border: 0; border-left: 3px solid transparent; border-radius: 8px; background: none; color: #dce6ff; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; }
+.sidebar-link svg { flex-shrink: 0; width: 20px; height: 20px; }
+.sidebar-link:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.sidebar-link:focus-visible { outline: 3px solid white; outline-offset: 2px; }
+.sidebar-link:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 700px) {
+  .cuenta { margin-top: 0; padding-top: 8px; }
+  .sidebar-link { justify-content: center; padding: 10px 4px; font-size: 12px; border-left: 0; }
+}

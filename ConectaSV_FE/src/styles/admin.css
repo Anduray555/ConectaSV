@@ -1,7 +1,4 @@
 .admin-dashboard .contenido { min-width: 0; }
-.admin-roles { display: flex; gap: 3px; padding: 4px; border-radius: 10px; background: #ffffff18; }
-.admin-roles a { flex: 1; padding: 8px 4px; text-align: center; color: white; text-decoration: none; font-size: 12px; border-radius: 7px; }
-.admin-roles [aria-current] { background: white; color: var(--azul); }
 .admin-panel, .admin-usuarios { display: grid; gap: 24px; }
 .admin-titulo h2 { margin-bottom: 7px; font-size: 24px; letter-spacing: -.7px; }
 .admin-titulo p { color: var(--suave-d); font-size: 14px; }

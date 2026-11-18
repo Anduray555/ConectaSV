@@ -21,40 +21,53 @@ import AdminLayout from './layouts/AdminLayout'
 import PanelAdmin from './pages/admin/PanelAdmin'
 import SoporteAdmin from './pages/admin/SoporteAdmin'
 import UsuariosAdmin from './pages/admin/UsuariosAdmin'
+import ProtectedRoute from './components/login_register/ProtectedRoute'
+import PublicOnlyRoute from './components/login_register/PublicOnlyRoute'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/registro" element={<Register />} />
+
+      <Route element={<PublicOnlyRoute />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Register />} />
+      </Route>  
+      
       <Route path="/recuperar-password" element={<RecoverPassword />} />
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route index element={<Navigate to="explorar" replace />} />
-        <Route path="explorar" element={<Explorar />} />
-        <Route path="mensajes" element={<Mensajes />} />
-        <Route path="documentos" element={<DocumentosSS />} />
-        <Route path="perfil" element={<MiPerfil />} />
+
+      <Route element={<ProtectedRoute roles={['student']} />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Navigate to="explorar" replace />} />
+          <Route path="explorar" element={<Explorar />} />
+          <Route path="mensajes" element={<Mensajes />} />
+          <Route path="documentos" element={<DocumentosSS />} />
+          <Route path="perfil" element={<MiPerfil />} />
+        </Route>
       </Route>
       {/* TODO BACKEND: proteger las rutas de empresa con sesión/rol reales y manejar acceso
           denegado o sesión expirada. La API debe validar la autorización en cada operación. */}
-      <Route path="/empresa" element={<EmpresaLayout />}>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardEmpresa />} />
-        <Route path="ofertas" element={<OfertasEmpresa />} />
-        <Route path="candidatos" element={<CandidatosEmpresa />} />
-        <Route path="documentos" element={<DocumentosEmpresa />} />
-        <Route path="mensajes" element={<MensajesEmpresa />} />
-        <Route path="perfil" element={<PerfilEmpresa />} />
+      <Route element={<ProtectedRoute roles={['company']} />}>  
+        <Route path="/empresa" element={<EmpresaLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<DashboardEmpresa />} />
+          <Route path="ofertas" element={<OfertasEmpresa />} />
+          <Route path="candidatos" element={<CandidatosEmpresa />} />
+          <Route path="documentos" element={<DocumentosEmpresa />} />
+          <Route path="mensajes" element={<MensajesEmpresa />} />
+          <Route path="perfil" element={<PerfilEmpresa />} />
+        </Route>
       </Route>
       {/* TODO BACKEND: proteger /admin con sesión y rol administrativo reales;
           validar permisos también en todos los endpoints, no solo en el router. */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<PanelAdmin />} />
-        <Route path="soporte" element={<SoporteAdmin />} />
-        <Route path="usuarios" element={<UsuariosAdmin />} />
+      <Route element={<ProtectedRoute roles={['admin']} />}>  
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<PanelAdmin />} />
+          <Route path="soporte" element={<SoporteAdmin />} />
+          <Route path="usuarios" element={<UsuariosAdmin />} />
+        </Route>
       </Route>
     </Routes>
   )

@@ -1,19 +1,19 @@
 import { useState } from "react"
 import { Candado, Ojo } from "../../assets/icons/landing/Svg_Icons"
 
-export function Campo({ id, label, icono, type = "text", placeholder, requerido = true, autoComplete }) {
+export function Campo({ id, label, name, icono, type = "text", placeholder, requerido = true, autoComplete }) {
   return (
     <>
       <label htmlFor={id}>{label}</label>
       <div className="campo">
         {icono}
-        <input type={type} id={id} name={id} placeholder={placeholder} required={requerido} autoComplete={autoComplete} />
+        <input type={type} id={id} name={name} placeholder={placeholder} required={requerido} autoComplete={autoComplete} />
       </div>
     </>
   )
 }
 
-export function CampoPassword({ id, label, placeholder }) {
+export function CampoPassword({ id, name, label, placeholder }) {
   const [mostrar, setMostrar] = useState(false)
 
   return (
@@ -24,7 +24,7 @@ export function CampoPassword({ id, label, placeholder }) {
         <input
           type={mostrar ? "text" : "password"}
           id={id}
-          name={id}
+          name={name}
           placeholder={placeholder}
           required
           minLength="8"
