@@ -1,6 +1,4 @@
-import '../styles/landing.css'
 import { useEffect, useRef } from 'react'
-import Footer from '../components/landing/Footer.jsx'
 import Header from '../components/landing/Header.jsx'
 import Hero from '../components/landing/Hero.jsx'
 import Student from '../components/landing/Student.jsx'
@@ -8,10 +6,13 @@ import Company from '../components/landing/Company.jsx'
 import Service from '../components/landing/Service.jsx'
 import Testimony from '../components/landing/Testimony.jsx'
 import Last from '../components/landing/Last.jsx'
+import Footer from '../components/landing/Footer.jsx'
+import '../styles/landing.css'
 
-function App() {
+function Landing() {
   const landingRef = useRef(null)
 
+  // Expone la altura real del header como --header-height para el CSS.
   useEffect(() => {
     const landing = landingRef.current
     const header = landing.querySelector('.site-header')
@@ -24,19 +25,19 @@ function App() {
 
   return (
     <div className="landing-page" ref={landingRef}>
-    <Header />
-    <main>
+      <Header />
+      <main>
         <Hero />
         <Student />
         <Company />
         <Service />
         <Testimony />
         <Last />
-    </main>
-    <Footer />
+      </main>
+      <Footer />
     </div>
   )
 }
 
-export default App
+export default Landing
 

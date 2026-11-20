@@ -1,17 +1,19 @@
+import { useOutletContext } from 'react-router-dom'
 import { IconPin } from '../../assets/icons/dashboard/Iconos'
 
 // TODO API: cargar el perfil del estudiante autenticado.
-import { useOutletContext } from 'react-router-dom'
 
 function MiPerfil() {
   const { perfil } = useOutletContext()
+  const academico = [perfil.carrera, perfil.universidad].filter(Boolean).join(' · ')
+
   return (
     <section className="perfil">
       <article className="tarjeta perfil-principal">
         <header>
           <b className="avatar-grande">{perfil.siglas}</b>
           <h2>{perfil.nombre || 'Perfil sin cargar'}</h2>
-          <p>{[perfil.carrera, perfil.universidad].filter(Boolean).join(' · ') || 'Sin información académica'}</p>
+          <p>{academico || 'Sin información académica'}</p>
           <p className="ubicacion">
             <IconPin /> {perfil.ubicacion}
           </p>

@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { IconBuscar, IconEnviar } from '../../assets/icons/dashboard/Iconos'
-// TODO API: cargar las conversaciones del usuario autenticado.
 import { useOutletContext } from 'react-router-dom'
+import { IconBuscar, IconEnviar } from '../../assets/icons/dashboard/Iconos'
+
+// TODO API: cargar las conversaciones del usuario autenticado.
 
 function Mensajes() {
   const { conversaciones } = useOutletContext()
-  const [aviso, setAviso] = useState('')
   const [activaId, setActivaId] = useState(null)
   const [busqueda, setBusqueda] = useState('')
   const [texto, setTexto] = useState('')
+  const [aviso, setAviso] = useState('')
 
   const activa = conversaciones.find((c) => c.id === activaId) ?? conversaciones[0]
   const lista = conversaciones.filter((c) =>
@@ -21,7 +22,6 @@ function Mensajes() {
 
     // TODO API: enviar el mensaje y actualizar el historial con la respuesta del servidor.
     setAviso('El envío de mensajes aún no está conectado.')
-
   }
 
   return (
@@ -60,38 +60,42 @@ function Mensajes() {
         {lista.length === 0 && <p className="vacio">Sin conversaciones.</p>}
       </aside>
 
-      {activa ? <section className="chat">
-        <header>
-          <b className="siglas" style={{ background: activa.color }}>{activa.siglas}</b>
-          <h3>{activa.empresa}</h3>
-          <p>{activa.vacante}</p>
-          {activa.enLinea && <small className="en-linea">En línea</small>}
-        </header>
+      {activa ? (
+        <section className="chat">
+          <header>
+            <b className="siglas" style={{ background: activa.color }}>{activa.siglas}</b>
+            <h3>{activa.empresa}</h3>
+            <p>{activa.vacante}</p>
+            {activa.enLinea && <small className="en-linea">En línea</small>}
+          </header>
 
-        <ol className="burbujas">
-          {activa.mensajes.map((m) => (
-            <li key={m.id} className={`burbuja ${m.de}`}>
-              {m.de === 'empresa' && (
-                <b className="siglas" style={{ background: activa.color }}>{activa.siglas}</b>
-              )}
-              <p>{m.texto}</p>
-              <small>{m.hora}</small>
-            </li>
-          ))}
-        </ol>
+          <ol className="burbujas">
+            {activa.mensajes.map((m) => (
+              <li key={m.id} className={`burbuja ${m.de}`}>
+                {m.de === 'empresa' && (
+                  <b className="siglas" style={{ background: activa.color }}>{activa.siglas}</b>
+                )}
+                <p>{m.texto}</p>
+                <small>{m.hora}</small>
+              </li>
+            ))}
+          </ol>
 
-        <form onSubmit={enviar}>
-          <input
-            value={texto}
-            onChange={(e) => setTexto(e.target.value)}
-            placeholder="Escribe un mensaje..."
-          />
-          <button type="submit" className="btn-enviar" disabled={!texto.trim()}>
-            <IconEnviar /> Enviar
-          </button>
-        </form>
-        <p role="status">{aviso}</p>
-      </section> : <p className="vacio">Selecciona una conversación.</p>}
+          <form onSubmit={enviar}>
+            <input
+              value={texto}
+              onChange={(e) => setTexto(e.target.value)}
+              placeholder="Escribe un mensaje..."
+            />
+            <button type="submit" className="btn-enviar" disabled={!texto.trim()}>
+              <IconEnviar /> Enviar
+            </button>
+          </form>
+          <p role="status">{aviso}</p>
+        </section>
+      ) : (
+        <p className="vacio">Selecciona una conversación.</p>
+      )}
     </section>
   )
 }

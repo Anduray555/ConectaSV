@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class StudentProfile extends Model
 {
@@ -22,5 +23,11 @@ class StudentProfile extends Model
     public function career(): BelongsTo
     {
         return $this->belongsTo(Career::class);
+    }
+
+    /** Tipos de oferta que le interesan (Trabajo, Práctica, Servicio Social). */
+    public function interests(): BelongsToMany
+    {
+        return $this->belongsToMany(OfferType::class, 'student_interests');
     }
 }

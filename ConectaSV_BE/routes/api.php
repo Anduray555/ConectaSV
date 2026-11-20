@@ -12,6 +12,7 @@ Route::get('/ping', fn () => response()->json([
 Route::get('/universities', [CatalogController::class, 'universities']);
 Route::get('/universities/{university}/careers', [CatalogController::class, 'careers']);
 Route::get('/sectors', [CatalogController::class, 'sectors']);
+Route::get('/offer-types', [CatalogController::class, 'offerTypes']);
 
 Route::prefix('auth')->group(function () {
     Route::post('/register/student', [AuthController::class, 'registerStudent']);

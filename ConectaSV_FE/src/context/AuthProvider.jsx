@@ -28,12 +28,25 @@ export default function AuthProvider({ children }) {
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  const login = useCallback(async (credentials) => {
-    const data = await authApi.login(credentials);
+  const startSession = useCallback((data) => {
     localStorage.setItem(TOKEN_KEY, data.token);
     setUser(data.user);
     return data.user;
   }, []);
+
+  const login = useCallback(
+    async (credentials) => startSession(await authApi.login(credentials)),
+    [startSession],
+  );
+
+  // tipo: 'estudiante' | 'empresa'. Al registrarse, el backend ya devuelve la sesión.
+  const register = useCallback(
+    async (tipo, data) => {
+      const request = tipo === 'empresa' ? authApi.registerCompany : authApi.registerStudent;
+      return startSession(await request(data));
+    },
+    [startSession],
+  );
 
   const logout = useCallback(async () => {
     try {
@@ -46,7 +59,10 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading, login, logout]);
+  const value = useMemo(
+    () => ({ user, loading, login, register, logout }),
+    [user, loading, login, register, logout],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

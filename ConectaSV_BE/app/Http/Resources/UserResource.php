@@ -22,6 +22,7 @@ class UserResource extends JsonResource
                 'student_code' => $this->studentProfile->student_code,
                 'university' => $this->studentProfile->university->only(['id', 'name', 'short_name']),
                 'career' => $this->studentProfile->career->only(['id', 'name']),
+                'interests' => $this->studentProfile->interests->map->only(['id', 'name'])->values(),
             ]),
             'company_member' => $this->whenLoaded('companyMember', fn () => [
                 'phone' => $this->companyMember->phone,

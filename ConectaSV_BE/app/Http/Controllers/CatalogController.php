@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OfferType;
 use App\Models\Sector;
 use App\Models\University;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,13 @@ class CatalogController extends Controller
     {
         return response()->json(
             Sector::orderBy('name')->get(['id', 'name'])
+        );
+    }
+
+    public function offerTypes(): JsonResponse
+    {
+        return response()->json(
+            OfferType::orderBy('id')->get(['id', 'name'])
         );
     }
 }

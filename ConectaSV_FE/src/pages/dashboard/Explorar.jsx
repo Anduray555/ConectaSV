@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import TarjetaOferta from '../../components/dashboard/TarjetaOferta'
 import { IconBuscar } from '../../assets/icons/dashboard/Iconos'
+
 // TODO API: cargar las oportunidades y adaptar la respuesta al formato de las tarjetas.
 
-
-const filtros = [
+const FILTROS = [
   { valor: 'todas', texto: 'Todas' },
   { valor: 'empleo', texto: 'Empleos' },
   { valor: 'practica', texto: 'Prácticas' },
@@ -17,7 +17,7 @@ function Explorar() {
   const [filtro, setFiltro] = useState('todas')
   const [busqueda, setBusqueda] = useState('')
 
-  // La lista visible se CALCULA a partir del estado; no se guarda aparte
+  // La lista visible se calcula a partir del estado; no se guarda aparte.
   const visibles = ofertas.filter((o) => {
     const coincideTipo = filtro === 'todas' || o.tipo === filtro
     const textoOferta = [o.titulo, o.empresa, ...o.etiquetas].join(' ').toLowerCase()
@@ -37,7 +37,7 @@ function Explorar() {
       </label>
 
       <menu className="filtros">
-        {filtros.map((f) => (
+        {FILTROS.map((f) => (
           <li key={f.valor}>
             <button
               type="button"

@@ -18,6 +18,28 @@ abstract class AuthRequest extends FormRequest
         }
     }
 
+    /** Nombres legibles de los campos para los mensajes de validación. */
+    public function attributes(): array
+    {
+        return [
+            'first_name' => 'nombre',
+            'second_name' => 'segundo nombre',
+            'first_surname' => 'apellido',
+            'second_surname' => 'segundo apellido',
+            'email' => 'correo electrónico',
+            'password' => 'contraseña',
+            'university_id' => 'universidad',
+            'career_id' => 'carrera',
+            'student_code' => 'carné',
+            'interests' => 'intereses',
+            'company_name' => 'nombre de la empresa',
+            'sector_id' => 'sector',
+            'web_site' => 'sitio web',
+            'contact_number' => 'teléfono de contacto',
+            'phone' => 'teléfono',
+        ];
+    }
+
     protected function userRules(): array
     {
         return [

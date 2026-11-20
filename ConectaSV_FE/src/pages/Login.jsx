@@ -1,35 +1,35 @@
-import { Link, useNavigate } from "react-router-dom"
-import { Google, Microsoft, Correo } from "../assets/icons/landing/Svg_Icons.jsx"
-import PanelAuth from "../components/login_register/PanelAuth.jsx"
-import { Campo, CampoPassword } from "../components/login_register/Campo.jsx"
-import useAuth from "../hooks/useAuth.js"
-import { useState } from "react"
-import { parseApiError } from '../api/errors';
-import { homeFor } from "../utils/roleRoutes.js"
-import "../styles/auth.css"
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Google, Microsoft, Correo } from '../assets/icons/landing/Svg_Icons.jsx'
+import PanelAuth from '../components/login_register/PanelAuth.jsx'
+import { Campo, CampoPassword } from '../components/login_register/Campo.jsx'
+import useAuth from '../hooks/useAuth.js'
+import { parseApiError } from '../api/errors'
+import { homeFor } from '../utils/roleRoutes.js'
+import '../styles/auth.css'
 
 function Login() {
-  const { login } = useAuth();
-  const navigate = useNavigate(); 
-  const [error, setError] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const [error, setError] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const credentials = Object.fromEntries(new FormData(e.currentTarget));
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const credentials = Object.fromEntries(new FormData(e.currentTarget))
 
-    setError(null);
-    setSubmitting(true);
+    setError(null)
+    setSubmitting(true)
 
     try {
-      const user = await login(credentials);
-      navigate(homeFor(user.role), { replace: true });
+      const user = await login(credentials)
+      navigate(homeFor(user.role), { replace: true })
     } catch (err) {
-      setError(parseApiError(err));
+      setError(parseApiError(err))
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="login">
@@ -45,11 +45,15 @@ function Login() {
           <p className="subtitulo">Inicia sesión para continuar a tu cuenta.</p>
 
           <div className="social-botones">
-            <button type="button" onClick={()=> navigate('/dashboard/explorar')}><Google /> Google</button>
+            <button type="button" onClick={() => navigate('/dashboard/explorar')}><Google /> Google</button>
             <button type="button"><Microsoft /> Microsoft</button>
           </div>
 
           <div className="divisor"><span>o con correo</span></div>
+
+          {error && (
+            <p className="alerta-error" role="alert">{error.fieldErrors?.email ?? error.message}</p>
+          )}
 
           <form onSubmit={handleSubmit}>
             <Campo
@@ -59,6 +63,7 @@ function Login() {
               icono={<Correo />}
               type="email"
               placeholder="tu@universidad.edu.sv"
+              autoComplete="email"
             />
             <CampoPassword
               id="login_password"
@@ -69,7 +74,9 @@ function Login() {
             <Link to="/recuperar-password" className="olvido">
               ¿Olvidaste tu contraseña?
             </Link>
-            <button type="submit" className="btn-principal">Iniciar sesión</button>
+            <button type="submit" className="btn-principal" disabled={submitting}>
+              {submitting ? 'Iniciando sesión…' : 'Iniciar sesión'}
+            </button>
           </form>
 
           <p className="cambio">

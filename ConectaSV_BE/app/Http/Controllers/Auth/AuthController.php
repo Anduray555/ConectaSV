@@ -23,26 +23,28 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data) {
+        $user = DB::transaction(function () use ($data) {
             $user = $this->createUser($data, UserRole::STUDENT);
 
-            $user->studentProfile()->create([
+            $profile = $user->studentProfile()->create([
                 'university_id' => $data['university_id'],
                 'career_id' => $data['career_id'],
                 'student_code' => $data['student_code'],
             ]);
+
+            $profile->interests()->sync($data['interests']);
+
+            return $user;
         });
 
-        return response()->json([
-            'message' => 'Registro exitoso. Ya puedes iniciar sesión.',
-        ], 201);
+        return $this->sessionResponse($user, 201);
     }
 
     public function registerCompany(RegisterCompanyRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data) {
+        $user = DB::transaction(function () use ($data) {
             $user = $this->createUser($data, UserRole::COMPANY);
 
             $company = Company::create([
@@ -55,13 +57,13 @@ class AuthController extends Controller
             $company->members()->create([
                 'user_id' => $user->id,
                 'company_role_id' => CompanyRole::where('name', CompanyRole::OWNER)->firstOrFail()->id,
-                'phone' => $data['phone'],
+                'phone' => $data['phone'] ?? null,
             ]);
+
+            return $user;
         });
 
-        return response()->json([
-            'message' => 'Registro exitoso. Ya puedes iniciar sesión.',
-        ], 201);
+        return $this->sessionResponse($user, 201);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -78,10 +80,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Tu cuenta está desactivada.'], 403);
         }
 
-        return response()->json([
-            'token' => $user->createToken('api')->plainTextToken,
-            'user' => new UserResource($this->loadProfile($user)),
-        ]);
+        return $this->sessionResponse($user);
     }
 
     public function logout(Request $request): JsonResponse
@@ -111,12 +110,22 @@ class AuthController extends Controller
         ]);
     }
 
+    /** Crea un token y devuelve la sesión, igual en login y en registro. */
+    private function sessionResponse(User $user, int $status = 200): JsonResponse
+    {
+        return response()->json([
+            'token' => $user->createToken('api')->plainTextToken,
+            'user' => new UserResource($this->loadProfile($user)),
+        ], $status);
+    }
+
     private function loadProfile(User $user): User
     {
         return $user->load([
             'role',
             'studentProfile.university',
             'studentProfile.career',
+            'studentProfile.interests',
             'companyMember.companyRole',
             'companyMember.company.sector',
         ]);

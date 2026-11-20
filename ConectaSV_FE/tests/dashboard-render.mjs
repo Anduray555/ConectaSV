@@ -8,13 +8,27 @@ import { MemoryRouter, Routes, Route, Outlet } from 'react-router-dom'
 const server = await createServer({ server: { middlewareMode: true, hmr: false } })
 try {
   const { default: App } = await server.ssrLoadModule('/src/App.jsx')
+  const { AuthContext } = await server.ssrLoadModule('/src/context/AuthContext.js')
+
+  // Las rutas están protegidas por rol: se simula una sesión ya iniciada con el rol de cada sección.
+  const sesion = (role) => ({
+    user: { id: 1, first_name: 'Prueba', first_surname: 'Render', email: 'prueba@test.sv', role },
+    loading: false,
+    login: async () => {},
+    register: async () => {},
+    logout: async () => {},
+  })
+  const rolDe = (route) => (route.startsWith('/empresa') ? 'company' : 'student')
   const routes = [
     '/dashboard/explorar', '/dashboard/mensajes', '/dashboard/documentos', '/dashboard/perfil',
     '/empresa/dashboard', '/empresa/ofertas', '/empresa/candidatos',
     '/empresa/documentos', '/empresa/mensajes', '/empresa/perfil',
   ]
   for (const route of routes) {
-    const html = renderToStaticMarkup(React.createElement(MemoryRouter, { initialEntries: [route] }, React.createElement(App)))
+    const html = renderToStaticMarkup(
+      React.createElement(MemoryRouter, { initialEntries: [route] },
+        React.createElement(AuthContext.Provider, { value: sesion(rolDe(route)) }, React.createElement(App))),
+    )
     assert.ok(html.includes('class="dashboard'), `${route}: dashboard missing`)
     assert.doesNotMatch(html, /Banco Agrícola|Andrea Martínez|2024|Datos de ejemplo|Tutor de ejemplo/)
     assert.doesNotMatch(html, /NaN|undefined/)

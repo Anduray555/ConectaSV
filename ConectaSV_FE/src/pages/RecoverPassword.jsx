@@ -10,7 +10,7 @@ function RecoverPassword() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    // TODO API: connect password recovery when the backend endpoint is available.
+    // TODO API: conectar la recuperación de contraseña cuando exista el endpoint.
     setMessage('El envío de correos aún no está disponible. Inténtalo cuando el servicio esté habilitado.')
   }
 
@@ -21,12 +21,17 @@ function RecoverPassword() {
         titulo="Vuelve a conectar con tus oportunidades."
         texto="Recupera el acceso a tu perfil, tus aplicaciones y tus conversaciones de forma rápida y segura."
       />
+
       <section className="login-der">
         <div className="login-caja recuperacion-caja">
           <Link to="/login" className="recuperacion-volver">← Volver al inicio de sesión</Link>
           <div className="recuperacion-icono" aria-hidden="true"><Candado /></div>
+
           <h1>Recupera tu contraseña</h1>
-          <p className="subtitulo">Ingresa el correo asociado a tu cuenta y te enviaremos un enlace para crear una nueva contraseña.</p>
+          <p className="subtitulo">
+            Ingresa el correo asociado a tu cuenta y te enviaremos un enlace para crear una nueva contraseña.
+          </p>
+
           <form onSubmit={handleSubmit}>
             <Campo
               id="recuperacion_correo"
@@ -40,6 +45,7 @@ function RecoverPassword() {
             </button>
             <p className="recuperacion-estado" role="status">{message}</p>
           </form>
+
           <p className="recuperacion-nota">Por seguridad, nunca te pediremos tu contraseña por correo.</p>
         </div>
       </section>
