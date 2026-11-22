@@ -12,17 +12,30 @@ try {
 
   // Las rutas están protegidas por rol: se simula una sesión ya iniciada con el rol de cada sección.
   const sesion = (role) => ({
-    user: { id: 1, first_name: 'Prueba', first_surname: 'Render', email: 'prueba@test.sv', role },
+    user: {
+      id: 1, first_name: 'Prueba', first_surname: 'Render', email: 'prueba@test.sv', role,
+      // Misma forma que UserResource (GET /api/auth/me)
+      student_profile: role === 'student' ? {
+        university: { id: 1, name: 'Universidad de Prueba', short_name: 'UP' },
+        career: { id: 1, name: 'Ingeniería de Prueba' },
+        interests: [{ id: 1, name: 'Interés de prueba' }],
+      } : undefined,
+      company_member: role === 'company' ? {
+        phone: null, role: 'owner',
+        company: { id: 1, name: 'Compañía Prueba', web_site: 'https://prueba.test', contact_number: '22223333', sector: 'Tecnología' },
+      } : undefined,
+    },
     loading: false,
     login: async () => {},
     register: async () => {},
     logout: async () => {},
   })
-  const rolDe = (route) => (route.startsWith('/empresa') ? 'company' : 'student')
+  const rolDe = (route) => (route.startsWith('/empresa') ? 'company' : route.startsWith('/admin') ? 'admin' : 'student')
   const routes = [
     '/dashboard/explorar', '/dashboard/mensajes', '/dashboard/documentos', '/dashboard/perfil',
     '/empresa/dashboard', '/empresa/ofertas', '/empresa/candidatos',
     '/empresa/documentos', '/empresa/mensajes', '/empresa/perfil',
+    '/admin/dashboard', '/admin/soporte', '/admin/usuarios', '/admin/perfil',
   ]
   for (const route of routes) {
     const html = renderToStaticMarkup(
@@ -36,6 +49,13 @@ try {
       for (const title of ['Carta de solicitud', 'Perfil del proyecto', 'Plan de trabajo']) assert.ok(html.includes(title), `${route}: missing ${title}`)
       assert.doesNotMatch(html, /Expediente completo|>Disponible</)
     }
+    // El perfil ya no está en la sidebar (se abre desde el menú de usuario), pero conserva su título.
+    if (route === '/dashboard/perfil') assert.ok(html.includes('<h1>Mi Perfil</h1>'), `${route}: missing title`)
+    if (route === '/admin/perfil') assert.ok(html.includes('<h1>Mi Perfil</h1>') && html.includes('prueba@test.sv'), `${route}: missing title or email`)
+    if (route === '/empresa/perfil') assert.ok(html.includes('<h1>Perfil Empresa</h1>'), `${route}: missing title`)
+    // El perfil se llena con los datos de la sesión.
+    if (route === '/dashboard/perfil') for (const dato of ['Prueba Render', 'Ingeniería de Prueba · Universidad de Prueba', 'Interés de prueba']) assert.ok(html.includes(dato), `${route}: missing ${dato}`)
+    if (route === '/empresa/perfil') for (const dato of ['Compañía Prueba', '>CP<', 'Tecnología', 'https://prueba.test', '22223333', 'prueba@test.sv']) assert.ok(html.includes(dato), `${route}: missing ${dato}`)
     if (route === '/empresa/dashboard') assert.equal((html.match(/<strong>—<\/strong>/g) ?? []).length, 4)
     console.log(`OK ${route}`)
   }

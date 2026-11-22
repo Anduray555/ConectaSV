@@ -7,31 +7,33 @@ const TARJETAS = [
     clave: 'usuarios',
     titulo: 'Usuarios totales',
     Icono: IconPerfil,
-    detalle: () => 'Estudiantes y empresas',
+    detalle: (resumen) => resumen
+      ? `Estudiantes y empresas · ${resumen.suspendidos} ${resumen.suspendidos === 1 ? 'suspendido' : 'suspendidos'}`
+      : 'Estudiantes y empresas',
   },
   {
     clave: 'estudiantes',
     titulo: 'Estudiantes activos',
     Icono: IconPerfil,
-    detalle: (resumen) => resumen
-      ? `De ${resumen.universidades ?? '—'} universidades`
-      : 'Universidades sin cargar',
+    detalle: (resumen) => {
+      if (!resumen) return 'Universidades sin cargar'
+      return `De ${resumen.universidades} ${resumen.universidades === 1 ? 'universidad' : 'universidades'}`
+    },
   },
   {
     clave: 'empresas',
     titulo: 'Empresas registradas',
     Icono: IconProyecto,
-    detalle: (resumen) => resumen
-      ? `${resumen.empresasPendientes ?? '—'} pendientes de verificar`
-      : 'Verificaciones sin cargar',
+    detalle: () => 'Registradas en la plataforma',
   },
   {
     clave: 'tickets',
     titulo: 'Tickets de soporte',
     Icono: IconMensajes,
-    detalle: (resumen) => resumen
+    // Los tickets aún no existen en el backend: resumen.tickets llega en null.
+    detalle: (resumen) => resumen?.tickets != null
       ? `${resumen.ticketsAltaPrioridad ?? '—'} de alta prioridad`
-      : 'Prioridades sin cargar',
+      : 'Soporte aún no disponible',
   },
 ]
 
@@ -47,23 +49,23 @@ function TicketReciente({ ticket }) {
   )
 }
 
-function UsuarioPendiente({ usuario, accion, ocupado }) {
+// Un usuario de los últimos registros (GET /api/admin/summary → recent).
+function RegistroReciente({ usuario }) {
   return (
     <article className="admin-pendiente">
       <h4>{usuario.nombre}</h4>
-      <p>{usuario.detalle}</p>
-      <p>{usuario.motivoRevision}</p>
-      <div className="admin-acciones">
-        <button disabled={ocupado} onClick={() => accion('aprobarUsuario', usuario.id)}>Aprobar</button>
-        <button disabled={ocupado} onClick={() => accion('rechazarUsuario', usuario.id)}>Rechazar</button>
-      </div>
+      <p>{usuario.tipo === 'empresa' ? 'Empresa' : 'Estudiante'}{usuario.detalle && ` · ${usuario.detalle}`}</p>
+      <p>
+        Registrado el {new Date(usuario.registro).toLocaleDateString('es-SV')}
+        {usuario.estado === 'suspendido' && ' · Suspendido'}
+      </p>
     </article>
   )
 }
 
 function PanelAdmin() {
-  const { datos, accion, ocupado } = useOutletContext()
-  const { resumen, tickets, pendientes, cargado } = datos
+  const { datos } = useOutletContext()
+  const { resumen, tickets, recientes, cargado } = datos
 
   return (
     <div className="admin-panel">
@@ -72,7 +74,7 @@ function PanelAdmin() {
         <p>Resumen general de la plataforma ConectaSV.</p>
       </header>
 
-      {/* TODO BACKEND: métricas agregadas del servidor, no calculadas sobre páginas parciales. */}
+      {/* Totales de GET /api/admin/summary, calculados en el servidor. */}
       <div className="admin-metricas">
         {TARJETAS.map(({ clave, titulo, detalle, Icono }) => (
           <article className="tarjeta" key={clave}>
@@ -95,23 +97,22 @@ function PanelAdmin() {
           ))}
           {!tickets.length && (
             <p className="admin-vacio">
-              {cargado ? 'No hay tickets recientes.' : 'Los tickets se mostrarán cuando se conecte el servicio.'}
+              Los tickets se mostrarán cuando se conecte el servicio de soporte.
             </p>
           )}
         </section>
 
         <section className="tarjeta">
           <header className="admin-seccion">
-            <h3>Usuarios pendientes</h3>
-            <Link to="/admin/usuarios?estado=pendiente">Gestionar →</Link>
+            <h3>Registros recientes</h3>
+            <Link to="/admin/usuarios">Gestionar →</Link>
           </header>
-          {/* TODO BACKEND: consultar cola de verificación y revisar documentos antes de aprobar. */}
-          {pendientes.map((usuario) => (
-            <UsuarioPendiente key={usuario.id} usuario={usuario} accion={accion} ocupado={ocupado} />
+          {recientes.map((usuario) => (
+            <RegistroReciente key={usuario.id} usuario={usuario} />
           ))}
-          {!pendientes.length && (
+          {!recientes.length && (
             <p className="admin-vacio">
-              {cargado ? 'No hay usuarios pendientes de revisión.' : 'Las verificaciones se mostrarán cuando se conecte el servicio.'}
+              {cargado ? 'Todavía no hay estudiantes ni empresas registrados.' : 'Cargando registros…'}
             </p>
           )}
         </section>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CatalogController;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,11 @@ Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
     });
+});
+
+// Panel de administración: requiere sesión (auth:sanctum) y rol admin (role:admin).
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/summary', [AdminUserController::class, 'summary']);
+    Route::get('/users', [AdminUserController::class, 'index']);
+    Route::patch('/users/{user}/status', [AdminUserController::class, 'updateStatus']);
 });

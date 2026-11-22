@@ -1,39 +1,176 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil } from '../assets/icons/dashboard/Iconos'
+import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil, IconProyecto } from '../assets/icons/dashboard/Iconos'
 import { Logo } from '../components/Logo'
-// TODO API: obtener el perfil y el contador de mensajes sin leer.
-import { crearEstadoEstudiante } from '../data/estadoDashboard'
-import CuentaSidebar from '../components/dashboard/CuentaSidebar'
+import MenuUsuario from '../components/dashboard/MenuUsuario'
+// TODO API: hidratar estos estados iniciales desde el backend.
+import {
+  crearEstadoEstudiante, crearEstadoEmpresa, crearEstadoAdmin, ejecutarAccionAdmin,
+  perfilEstudianteDesdeUsuario, empresaDesdeUsuario, resumenDesdeApi, usuarioDesdeApi,
+} from '../data/dashboard'
+import { adminApi } from '../api/admin'
+import { parseApiError } from '../api/errors'
+import useAuth from '../hooks/useAuth'
 import '../styles/dashboard.css'
 
+// Layout único para los tres roles. La estructura (sidebar, barra y contenido) es la misma;
+// lo que cambia por rol se define en DASHBOARDS: menú, ruta del perfil y datos del <Outlet>.
+// Para un cambio estético global basta con editar este archivo y styles/dashboard.css.
 
-// "texto" es lo que se ve en la sidebar; "titulo" lo que se ve en la barra superior
-const menu = [
-  { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
-  { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes /> },
-  { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
-  { to: '/dashboard/perfil', texto: 'Mi Perfil', titulo: 'Mi Perfil', icono: <IconPerfil /> },
-]
+const sumarSinLeer = (conversaciones) => conversaciones.reduce((total, c) => total + (c.sinLeer ?? 0), 0)
 
-function DashboardLayout() {
-  // TODO BACKEND: cargar la sesión y los datos del estudiante; actualizar con setDatos.
-  const [datos, setDatos] = useState(crearEstadoEstudiante)
-  const { sesion: { rol, ciclo, activa }, conversaciones } = datos
-  const sinLeer = conversaciones.reduce((total, c) => total + (c.sinLeer ?? 0), 0)
+// Cada rol define un hook useDatos() que devuelve:
+//   contexto  -> lo que reciben las páginas con useOutletContext()
+//   sinLeer   -> número que se muestra junto al enlace marcado con `insignia`
+//   error     -> (opcional) mensaje de error y limpiarError() para cerrarlo
+const DASHBOARDS = {
+  student: {
+    clase: 'dashboard',
+    navLabel: 'Navegación de estudiante',
+    // "texto" es lo que se ve en la sidebar; "titulo" lo que se ve en la barra superior
+    menu: [
+      { to: '/dashboard/explorar', texto: 'Explorar', titulo: 'Explorar Oportunidades', icono: <IconExplorar /> },
+      { to: '/dashboard/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: true },
+      { to: '/dashboard/documentos', texto: 'Documentos SS', titulo: 'Servicio Social', icono: <IconDocumentos /> },
+    ],
+    perfilRuta: '/dashboard/perfil',
+    // Títulos de páginas que no están en la sidebar (se abren desde el menú de usuario).
+    otrosTitulos: { '/dashboard/perfil': 'Mi Perfil' },
+    useDatos() {
+      // El perfil se llena con la sesión (GET /api/auth/me).
+      // TODO BACKEND: cargar ofertas, conversaciones y expediente; actualizar con setDatos.
+      const { user } = useAuth()
+      const [datos, setDatos] = useState(() => {
+        const inicial = crearEstadoEstudiante()
+        return { ...inicial, perfil: { ...inicial.perfil, ...perfilEstudianteDesdeUsuario(user) } }
+      })
+      return { contexto: { ...datos, setDatos }, sinLeer: sumarSinLeer(datos.conversaciones) }
+    },
+  },
+
+  company: {
+    clase: 'dashboard empresa-dashboard',
+    navLabel: 'Navegación de empresa',
+    tituloPorDefecto: 'Empresa',
+    menu: [
+      { to: '/empresa/dashboard', texto: 'Dashboard', titulo: 'Dashboard', icono: <IconExplorar /> },
+      { to: '/empresa/ofertas', texto: 'Mis Ofertas', titulo: 'Mis Ofertas', icono: <IconProyecto /> },
+      { to: '/empresa/candidatos', texto: 'Candidatos', titulo: 'Candidatos', icono: <IconPerfil /> },
+      { to: '/empresa/documentos', texto: 'Documentos SS', titulo: 'Documentos SS', icono: <IconDocumentos /> },
+      { to: '/empresa/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: true },
+    ],
+    perfilRuta: '/empresa/perfil',
+    otrosTitulos: { '/empresa/perfil': 'Perfil Empresa' },
+    useDatos() {
+      // TODO BACKEND: reemplazar el estado inicial por consultas de la sesión de empresa, con
+      // carga, error, reintento y sesión expirada. Mantener aquí los datos compartidos para
+      // reflejar los cambios entre las seis vistas.
+      // Los datos de la empresa se llenan con la sesión (GET /api/auth/me).
+      const { user } = useAuth()
+      const [datos, setDatos] = useState(() => {
+        const inicial = crearEstadoEmpresa()
+        return { ...inicial, empresa: { ...inicial.empresa, ...empresaDesdeUsuario(user) } }
+      })
+      const actualizar = (campo) => (valor) =>
+        setDatos((actual) => ({ ...actual, [campo]: typeof valor === 'function' ? valor(actual[campo]) : valor }))
+      const { empresa, ofertas, candidatos, expedientes, conversaciones, resumen } = datos
+      return {
+        contexto: {
+          setDatos, resumen, empresa, ofertas, candidatos, expedientes, conversaciones,
+          setEmpresa: actualizar('empresa'),
+          setOfertas: actualizar('ofertas'),
+          setExpedientes: actualizar('expedientes'),
+          setConversaciones: actualizar('conversaciones'),
+        },
+        // TODO BACKEND: usar el total real de mensajes sin leer, incluso con conversaciones paginadas.
+        sinLeer: sumarSinLeer(conversaciones),
+      }
+    },
+  },
+
+  admin: {
+    clase: 'dashboard admin-dashboard',
+    navLabel: 'Administración',
+    tituloPorDefecto: 'Administración',
+    menu: [
+      { to: '/admin/dashboard', texto: 'Dashboard', titulo: 'Panel Admin', icono: <IconExplorar /> },
+      { to: '/admin/soporte', texto: 'Soporte', titulo: 'Mensajes de Soporte', icono: <IconMensajes />, insignia: true },
+      { to: '/admin/usuarios', texto: 'Usuarios', titulo: 'Gestión de Usuarios', icono: <IconPerfil /> },
+    ],
+    perfilRuta: '/admin/perfil',
+    otrosTitulos: { '/admin/perfil': 'Mi Perfil' },
+    useDatos() {
+      // El resumen (tarjetas del panel, perfil y registros recientes) se carga una vez aquí y
+      // se comparte con todas las pantallas admin. La lista de usuarios la pide UsuariosAdmin.
+      const [datos, setDatos] = useState(crearEstadoAdmin)
+      const [error, setError] = useState('')
+      const [ocupado, setOcupado] = useState(false)
+
+      // GET /api/admin/summary. Se vuelve a llamar después de activar o suspender a alguien.
+      const recargarResumen = useCallback(async (signal) => {
+        try {
+          const data = await adminApi.summary({ signal })
+          setDatos((anterior) => ({
+            ...anterior,
+            resumen: resumenDesdeApi(data),
+            recientes: data.recent.map(usuarioDesdeApi),
+            cargado: true,
+          }))
+        } catch (err) {
+          if (signal?.aborted) return
+          setError(parseApiError(err).message)
+        }
+      }, [])
+
+      useEffect(() => {
+        const control = new AbortController()
+        recargarResumen(control.signal)
+        return () => control.abort()
+      }, [recargarResumen])
+
+      // Acciones de soporte (tickets). Aún no hay backend: ejecutarAccionAdmin avisa con un error.
+      async function accion(operacion, id, payload) {
+        setOcupado(true)
+        setError('')
+        try {
+          const actualizacion = await ejecutarAccionAdmin(operacion, id, payload)
+          setDatos((anterior) => ({ ...anterior, ...actualizacion }))
+          return true
+        } catch (err) {
+          setError(err.message || 'No se pudo completar la operación.')
+          return false
+        } finally {
+          setOcupado(false)
+        }
+      }
+
+      return {
+        contexto: { datos, accion, ocupado, recargarResumen },
+        sinLeer: datos.resumen?.ticketsSinLeer ?? 0,
+        error,
+        limpiarError: () => setError(''),
+      }
+    },
+  },
+}
+
+// `rol` es fijo para cada ruta (student | company | admin), por eso es seguro
+// llamar al hook useDatos() del rol en cada render.
+function DashboardLayout({ rol }) {
+  const config = DASHBOARDS[rol]
+  const { contexto, sinLeer, error, limpiarError } = config.useDatos()
   const { pathname } = useLocation()
-  const actual = menu.find((item) => item.to === pathname)
+  const actual = config.menu.find((item) => item.to === pathname)
 
   return (
-    <div className="dashboard">
+    <div className={config.clase}>
       <aside className="sidebar">
         <header className="marca">
-          <Logo></Logo>
-          {/* <p>Plataforma estudiantil</p> */}
+          <Logo />
         </header>
 
-        <nav aria-label="Navegación de estudiante">
-          {menu.map((item) => (
+        <nav aria-label={config.navLabel}>
+          {config.menu.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -41,25 +178,26 @@ function DashboardLayout() {
             >
               {item.icono}
               {item.texto}
-              {item.to === '/dashboard/mensajes' && sinLeer > 0 && <small>{sinLeer}</small>}
+              {item.insignia && sinLeer > 0 && <small>{sinLeer}</small>}
             </NavLink>
           ))}
         </nav>
-
-        <CuentaSidebar />
       </aside>
 
       <section className="area">
         <header className="barra">
-          <h1>{actual?.titulo}</h1>
-          <ul>
-            {ciclo && <li>Ciclo {ciclo}</li>}
-            {rol && <li className={activa ? 'activo' : undefined}>{rol}{activa === true ? ' activo' : ''}</li>}
-          </ul> 
+          <h1>{actual?.titulo ?? config.otrosTitulos?.[pathname] ?? config.tituloPorDefecto}</h1>
+          <MenuUsuario perfilRuta={config.perfilRuta} />
         </header>
 
         <section className="contenido">
-          <Outlet context={{ ...datos, setDatos }} />
+          {error && (
+            <p className="admin-error" role="alert">
+              {error}
+              <button type="button" onClick={limpiarError} aria-label="Cerrar error">×</button>
+            </p>
+          )}
+          <Outlet context={contexto} />
         </section>
       </section>
     </div>
@@ -67,5 +205,3 @@ function DashboardLayout() {
 }
 
 export default DashboardLayout
-
-

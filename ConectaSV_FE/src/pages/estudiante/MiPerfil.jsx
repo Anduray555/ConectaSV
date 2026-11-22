@@ -14,9 +14,11 @@ function MiPerfil() {
           <b className="avatar-grande">{perfil.siglas}</b>
           <h2>{perfil.nombre || 'Perfil sin cargar'}</h2>
           <p>{academico || 'Sin información académica'}</p>
-          <p className="ubicacion">
-            <IconPin /> {perfil.ubicacion}
-          </p>
+          {perfil.ubicacion && (
+            <p className="ubicacion">
+              <IconPin /> {perfil.ubicacion}
+            </p>
+          )}
           <button type="button" className="btn-contorno" disabled>Editar perfil</button>
         </header>
 

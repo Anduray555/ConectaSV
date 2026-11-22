@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { tiposDocumento } from '../../data/empresa'
+import { tiposDocumento } from '../../data/dashboard'
 import { IconDocumentos } from '../../assets/icons/dashboard/Iconos'
 
 const TAMANO_MAXIMO = 10 * 1024 * 1024 // 10 MB

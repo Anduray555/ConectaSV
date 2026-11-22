@@ -102,7 +102,7 @@ function PerfilEmpresa() {
           <b className="avatar-grande">{empresa.siglas || '—'}</b>
           <h2>{empresa.nombre || 'Perfil sin cargar'}</h2>
           <p>{empresa.descripcion}</p>
-          <p className="ubicacion"><IconPin />{empresa.ubicacion}</p>
+          {empresa.ubicacion && <p className="ubicacion"><IconPin />{empresa.ubicacion}</p>}
           <button type="button" className="btn-contorno" onClick={() => setEditando(true)}>Editar perfil</button>
         </header>
         <ul className="estadisticas">
@@ -129,7 +129,7 @@ function PerfilEmpresa() {
 
       <section className="tarjeta">
         <h3>Información de contacto</h3>
-        <dl className="empresa-contacto">
+        <dl className="perfil-datos">
           {contacto.map(([label, valor]) => (
             <div key={label}>
               <dt>{label}</dt>

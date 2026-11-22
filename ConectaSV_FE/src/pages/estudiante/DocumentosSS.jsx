@@ -1,5 +1,5 @@
 import { useOutletContext } from 'react-router-dom'
-import { tiposDocumento } from '../../data/empresa'
+import { tiposDocumento } from '../../data/dashboard'
 import { IconCarta, IconDocumentos, IconCalendario } from '../../assets/icons/dashboard/Iconos'
 
 const ICONOS = { carta: IconCarta, proyecto: IconDocumentos, plan: IconCalendario }
