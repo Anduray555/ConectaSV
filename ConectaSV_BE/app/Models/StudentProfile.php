@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class StudentProfile extends Model
 {
-    protected $fillable = ['user_id', 'university_id', 'career_id', 'student_code'];
+    protected $fillable = ['user_id', 'university_id', 'career_id', 'student_code', 'onboarded_at'];
+
+    protected function casts(): array
+    {
+        // Convierte el texto de la BD en un objeto de fecha (Carbon) y viceversa.
+        return ['onboarded_at' => 'datetime'];
+    }
 
     public function user(): BelongsTo
     {
@@ -29,5 +35,11 @@ class StudentProfile extends Model
     public function interests(): BelongsToMany
     {
         return $this->belongsToMany(OfferType::class, 'student_interests');
+    }
+
+    /** Tags del estudiante. La tabla student_profile_tag sigue la convención, no hace falta nombrarla. */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

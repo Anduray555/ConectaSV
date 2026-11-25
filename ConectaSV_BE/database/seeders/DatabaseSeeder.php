@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CatalogSeeder::class,
             UniversitySeeder::class,
+            StudyAreaSeeder::class, // antes de CareerSeeder y de las categorías: ambos se enlazan a áreas
             TagCategorySeeder::class,
+            TagSeeder::class, // después de TagCategorySeeder: necesita las categorías
             AdminSeeder::class,
             CareerSeeder::class,
         ]);

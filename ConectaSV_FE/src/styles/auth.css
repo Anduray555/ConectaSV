@@ -708,3 +708,23 @@
 .interes input:checked + span { border-color: #154ee0; background: #edf2ff; color: #154ee0; }
 .interes input:focus-visible + span { outline: 2px solid var(--celeste); outline-offset: 2px; }
 .intereses .campo-error { margin: 8px 0 0; }
+
+/* ---------- Completa tu perfil (pages/CompletarPerfil.jsx) ---------- */
+.onboarding .login-caja { max-width: 560px; }
+.onboarding .selector-tags { margin-bottom: 20px; }
+.onboarding-continuar:disabled { opacity: .6; cursor: wait; }
+.onboarding-omitir {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: 0;
+  background: none;
+  color: var(--texto-suave);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.onboarding-omitir:hover:not(:disabled) { color: var(--texto); text-decoration: underline; }
+.onboarding-nota { margin: 4px 0 0; color: var(--texto-suave); font-size: 12px; text-align: center; }

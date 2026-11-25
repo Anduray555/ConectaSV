@@ -126,6 +126,7 @@ class AuthController extends Controller
             'studentProfile.university',
             'studentProfile.career',
             'studentProfile.interests',
+            'studentProfile.tags',
             'companyMember.companyRole',
             'companyMember.company.sector',
         ]);

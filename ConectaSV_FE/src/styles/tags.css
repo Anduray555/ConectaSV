@@ -1,0 +1,179 @@
+/* =========================================================
+   SELECTOR DE TAGS (components/perfil/SelectorTags.jsx)
+   Los colores salen de variables para que cada pantalla pueda
+   ajustarlos sin tocar este archivo. Los valores por defecto
+   toman la paleta de la pantalla donde está (auth.css define
+   --tarjeta, --borde, --texto... en .login-der).
+   ========================================================= */
+
+.selector-tags {
+  --chip-borde: var(--borde);
+  --chip-fondo: var(--tarjeta);
+  --chip-fondo-hover: var(--tarjeta-hover);
+  --chip-texto: var(--texto-suave);
+  --chip-activo-borde: #154ee0;
+  --chip-activo-fondo: #edf2ff;
+  --chip-activo-texto: #154ee0;
+  --chip-titulo: var(--texto);
+  --chip-suave: var(--texto-suave);
+
+  display: grid;
+  gap: 14px;
+}
+
+/* ---------- Elegidos ---------- */
+.selector-tags-elegidos {
+  padding: 12px 14px;
+  border: 1px dashed var(--chip-borde);
+  border-radius: 12px;
+}
+
+.selector-tags-elegidos header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--chip-titulo);
+  font-size: 14px;
+}
+
+.selector-tags-elegidos header span,
+.selector-tags-elegidos p {
+  color: var(--chip-suave);
+  font-size: 13px;
+}
+
+.selector-tags-elegidos p { margin: 0; }
+
+.selector-tags-elegidos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-elegido {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 12px;
+  border: 1px solid var(--chip-activo-borde);
+  border-radius: 999px;
+  background: var(--chip-activo-fondo);
+  color: var(--chip-activo-texto);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tag-elegido span[aria-hidden] { font-size: 15px; line-height: 1; }
+.tag-elegido:hover { background: #dbe6ff; }
+
+/* ---------- Combo de categoría + buscador (lado a lado; en pantallas angostas, apilados) ---------- */
+.selector-tags-controles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .selector-tags-controles { grid-template-columns: 1fr; }
+}
+
+.selector-tags-combo,
+.selector-tags-buscar {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--chip-borde);
+  border-radius: 10px;
+  background-color: var(--chip-fondo);
+  color: var(--chip-titulo);
+  font: inherit;
+  font-size: 14px;
+}
+
+.selector-tags-combo { cursor: pointer; }
+.selector-tags-combo:disabled { opacity: .55; cursor: not-allowed; }
+
+.selector-tags-combo:focus,
+.selector-tags-buscar:focus {
+  outline: none;
+  border-color: var(--chip-activo-borde);
+  box-shadow: 0 0 0 3px rgba(26, 91, 250, .18);
+}
+
+/* ---------- Lista de tags ---------- */
+/* Altura máxima con scroll: con muchas categorías la pantalla no crece sin fin. */
+.selector-tags-lista {
+  display: grid;
+  gap: 16px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.selector-tags-vacio {
+  margin: 0;
+  color: var(--chip-suave);
+  font-size: 13px;
+}
+
+.selector-tags-grupo {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.selector-tags-grupo legend {
+  margin-bottom: 8px;
+  color: var(--chip-titulo);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.selector-tags-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  padding: 8px 14px;
+  border: 1px solid var(--chip-borde);
+  border-radius: 999px;
+  background: var(--chip-fondo);
+  color: var(--chip-texto);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+/* Solo los no elegidos cambian al pasar el mouse; si no, un chip elegido perdería su color. */
+.tag-chip[aria-pressed="false"]:hover:not(:disabled) { background: var(--chip-fondo-hover); }
+
+.tag-chip[aria-pressed="true"] {
+  border-color: var(--chip-activo-borde);
+  background: var(--chip-activo-fondo);
+  color: var(--chip-activo-texto);
+}
+
+.tag-chip:focus-visible,
+.tag-elegido:focus-visible { outline: 2px solid var(--chip-activo-borde); outline-offset: 2px; }
+
+/* Cuando ya se llegó al máximo, los que no están elegidos se ven apagados. */
+.tag-chip:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Texto que solo leen los lectores de pantalla (por ejemplo, "(quitar)" junto a la ×). */
+.selector-tags .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

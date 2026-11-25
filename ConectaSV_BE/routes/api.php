@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\Student\OnboardingController;
+use App\Http\Controllers\Student\StudentTagController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/ping', fn () => response()->json([
@@ -14,6 +16,7 @@ Route::get('/universities', [CatalogController::class, 'universities']);
 Route::get('/universities/{university}/careers', [CatalogController::class, 'careers']);
 Route::get('/sectors', [CatalogController::class, 'sectors']);
 Route::get('/offer-types', [CatalogController::class, 'offerTypes']);
+Route::get('/tags', [CatalogController::class, 'tags']);
 
 Route::prefix('auth')->group(function () {
     Route::post('/register/student', [AuthController::class, 'registerStudent']);
@@ -24,6 +27,13 @@ Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
     });
+});
+
+// Estudiante: requiere sesión y rol student.
+Route::prefix('student')->middleware(['auth:sanctum', 'role:student'])->group(function () {
+    Route::get('/tags', [StudentTagController::class, 'index']);
+    Route::put('/tags', [StudentTagController::class, 'update']);
+    Route::post('/onboarding', OnboardingController::class);
 });
 
 // Panel de administración: requiere sesión (auth:sanctum) y rol admin (role:admin).

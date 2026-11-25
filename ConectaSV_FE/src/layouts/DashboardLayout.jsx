@@ -40,11 +40,11 @@ const DASHBOARDS = {
       // El perfil se llena con la sesión (GET /api/auth/me).
       // TODO BACKEND: cargar ofertas, conversaciones y expediente; actualizar con setDatos.
       const { user } = useAuth()
-      const [datos, setDatos] = useState(() => {
-        const inicial = crearEstadoEstudiante()
-        return { ...inicial, perfil: { ...inicial.perfil, ...perfilEstudianteDesdeUsuario(user) } }
-      })
-      return { contexto: { ...datos, setDatos }, sinLeer: sumarSinLeer(datos.conversaciones) }
+      const [datos, setDatos] = useState(crearEstadoEstudiante)
+      // El perfil se calcula en cada render a partir de `user` (no se copia al estado):
+      // así, cuando refreshUser() trae tags nuevos, Mi Perfil los muestra sin recargar la página.
+      const perfil = { ...datos.perfil, ...perfilEstudianteDesdeUsuario(user) }
+      return { contexto: { ...datos, perfil, setDatos }, sinLeer: sumarSinLeer(datos.conversaciones) }
     },
   },
 

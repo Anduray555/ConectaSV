@@ -23,6 +23,9 @@ class UserResource extends JsonResource
                 'university' => $this->studentProfile->university->only(['id', 'name', 'short_name']),
                 'career' => $this->studentProfile->career->only(['id', 'name']),
                 'interests' => $this->studentProfile->interests->map->only(['id', 'name'])->values(),
+                'tags' => TagResource::collection($this->studentProfile->tags),
+                // null = aún no pasa por "Completa tu perfil"; el frontend la muestra.
+                'onboarded_at' => $this->studentProfile->onboarded_at?->toIso8601String(),
             ]),
             'company_member' => $this->whenLoaded('companyMember', fn () => [
                 'phone' => $this->companyMember->phone,

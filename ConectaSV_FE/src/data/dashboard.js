@@ -18,7 +18,7 @@ export const tiposDocumento = [
 // ── Estados iniciales: hidratar desde la API en DashboardLayout ──
 export function crearEstadoEstudiante() {
   return {
-    perfil: { siglas: '', nombre: '', carrera: '', universidad: '', ubicacion: '', acerca: '', habilidades: [], estadisticas: [{ numero: null, texto: 'Aplicaciones' }, { numero: null, texto: 'Entrevistas' }, { numero: null, texto: 'Mensajes' }] },
+    perfil: { siglas: '', nombre: '', carrera: '', universidad: '', ubicacion: '', acerca: '', habilidades: [], intereses: [], estadisticas: [{ numero: null, texto: 'Aplicaciones' }, { numero: null, texto: 'Entrevistas' }, { numero: null, texto: 'Mensajes' }] },
     sesion: { rol: null, ciclo: null, activa: null },
     ofertas: [], conversaciones: [], expediente: null,
   }
@@ -93,7 +93,11 @@ export function perfilEstudianteDesdeUsuario(user) {
     nombre: [user?.first_name, user?.first_surname].filter(Boolean).join(' '),
     carrera: perfil?.career?.name ?? '',
     universidad: perfil?.university?.name ?? '',
-    habilidades: (perfil?.interests ?? []).map((i) => i.name),
+    // Habilidades = tags del estudiante (PUT /student/tags). Ojo: "interests" son otra cosa,
+    // los tipos de oferta que busca (Trabajo, Práctica, Servicio Social).
+    habilidades: (perfil?.tags ?? []).map((tag) => tag.name),
+    // Ids de los tipos de oferta que le interesan (para marcar Sí/No en Mi Perfil).
+    intereses: (perfil?.interests ?? []).map((interes) => interes.id),
   }
 }
 

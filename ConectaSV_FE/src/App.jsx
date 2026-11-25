@@ -3,6 +3,8 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import RecoverPassword from './pages/RecoverPassword'
+import CompletarPerfil from './pages/CompletarPerfil'
+import OnboardingGate from './components/login_register/OnboardingGate'
 
 import DashboardLayout from './layouts/DashboardLayout'
 import Explorar from './pages/estudiante/Explorar'
@@ -36,12 +38,17 @@ function App() {
 
 
       <Route element={<ProtectedRoute roles={['student']} />}>
-        <Route path="/dashboard" element={<DashboardLayout rol="student" />}>
-          <Route index element={<Navigate to="explorar" replace />} />
-          <Route path="explorar" element={<Explorar />} />
-          <Route path="mensajes" element={<Mensajes />} />
-          <Route path="documentos" element={<DocumentosSS />} />
-          <Route path="perfil" element={<MiPerfil />} />
+        {/* Fuera del dashboard: se ve como un paso más del registro. */}
+        <Route path="/completar-perfil" element={<CompletarPerfil />} />
+
+        <Route element={<OnboardingGate />}>
+          <Route path="/dashboard" element={<DashboardLayout rol="student" />}>
+            <Route index element={<Navigate to="explorar" replace />} />
+            <Route path="explorar" element={<Explorar />} />
+            <Route path="mensajes" element={<Mensajes />} />
+            <Route path="documentos" element={<DocumentosSS />} />
+            <Route path="perfil" element={<MiPerfil />} />
+          </Route>
         </Route>
       </Route>
       {/* TODO BACKEND: proteger las rutas de empresa con sesión/rol reales y manejar acceso

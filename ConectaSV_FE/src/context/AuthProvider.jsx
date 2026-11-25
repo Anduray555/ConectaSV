@@ -59,9 +59,17 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
+  // Vuelve a pedir el usuario al backend. Se usa después de cambiar datos que vienen en
+  // /auth/me (tags, onboarded_at...), para que toda la app vea la versión actualizada.
+  const refreshUser = useCallback(async () => {
+    const data = await authApi.me();
+    setUser(data.user);
+    return data.user;
+  }, []);
+
   const value = useMemo(
-    () => ({ user, loading, login, register, logout }),
-    [user, loading, login, register, logout],
+    () => ({ user, loading, login, register, logout, refreshUser }),
+    [user, loading, login, register, logout, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

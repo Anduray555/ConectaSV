@@ -2,15 +2,10 @@ import { useEffect, useState } from "react"
 import { Campo, CampoSelect, ErrorCampo } from "./Campo"
 import { Carnet } from "../../assets/icons/landing/Svg_Icons"
 import { catalogApi } from "../../api/catalogs"
+import { etiquetaInteres } from "../../utils/intereses"
 
 const aOpciones = (lista) => lista.map((item) => ({ value: item.id, label: item.name }))
 
-// Texto para cada tipo de oferta del catálogo (Trabajo, Práctica, Servicio Social).
-const ETIQUETA_INTERES = {
-  'Trabajo': 'Empleo',
-  'Práctica': 'Prácticas',
-  'Servicio Social': 'Horas sociales',
-}
 
 function PerfilEstudiante({ universidades, tiposOferta, errores }) {
   const [universidadId, setUniversidadId] = useState("")
@@ -85,7 +80,7 @@ function PerfilEstudiante({ universidades, tiposOferta, errores }) {
           {tiposOferta.map((tipo) => (
             <label key={tipo.id} className="interes">
               <input type="checkbox" name="interests" value={tipo.id} />
-              <span>{ETIQUETA_INTERES[tipo.name] ?? tipo.name}</span>
+              <span>{etiquetaInteres(tipo.name)}</span>
             </label>
           ))}
         </div>

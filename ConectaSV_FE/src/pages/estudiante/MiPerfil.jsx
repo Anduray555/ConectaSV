@@ -1,10 +1,19 @@
+import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { IconPin } from '../../assets/icons/dashboard/Iconos'
+import { catalogApi } from '../../api/catalogs'
+import { etiquetaInteres } from '../../utils/intereses'
 
-// TODO API: cargar el perfil del estudiante autenticado.
+// El perfil viene de GET /api/auth/me (ver perfilEstudianteDesdeUsuario en data/dashboard.js).
 
 function MiPerfil() {
   const { perfil } = useOutletContext()
+  // Catálogo completo de tipos de oferta, para mostrar los 3 con "Me interesa" / "No me interesa".
+  const [tiposOferta, setTiposOferta] = useState([])
+
+  useEffect(() => {
+    catalogApi.offerTypes().then(setTiposOferta).catch(() => setTiposOferta([]))
+  }, [])
   const academico = [perfil.carrera, perfil.universidad].filter(Boolean).join(' · ')
 
   return (
@@ -35,6 +44,23 @@ function MiPerfil() {
       <section className="tarjeta">
         <h3>Sobre mí</h3>
         <p>{perfil.acerca || 'Sin descripción.'}</p>
+      </section>
+
+      {/* Mismo formato que "Información de la cuenta" en PerfilAdmin (.perfil-datos). */}
+      <section className="tarjeta">
+        <h3>Intereses</h3>
+        {tiposOferta.length === 0 ? (
+          <p>Cargando intereses…</p>
+        ) : (
+          <dl className="perfil-datos">
+            {tiposOferta.map((tipo) => (
+              <div key={tipo.id}>
+                <dt>{etiquetaInteres(tipo.name)}</dt>
+                <dd>{perfil.intereses.includes(tipo.id) ? 'Me interesa' : 'No me interesa'}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </section>
 
       <section className="tarjeta">
