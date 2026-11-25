@@ -1,6 +1,8 @@
 import { useOutletContext } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { roleLabel } from '../../utils/roleRoutes'
+import AvatarEditable from '../../components/perfil/AvatarEditable'
+import { avatarApi } from '../../api/images'
 
 // Perfil del administrador. Usa el mismo diseño que los perfiles de estudiante y empresa
 // (.perfil / .perfil-principal) para que un cambio estético se aplique a los tres.
@@ -35,7 +37,7 @@ function PerfilAdmin() {
     <section className="perfil">
       <article className="tarjeta perfil-principal">
         <header>
-          <b className="avatar-grande">{siglas || '—'}</b>
+          <AvatarEditable url={user?.avatar_url} siglas={siglas} api={avatarApi} />
           <h2>{nombre || 'Perfil sin cargar'}</h2>
           <p>{user?.role ? `${roleLabel(user.role)} · ConectaSV` : 'Sin información de la cuenta'}</p>
           {/* TODO BACKEND: endpoint para editar nombre, correo y contraseña del administrador. */}

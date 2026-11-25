@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { IconPin } from '../../assets/icons/dashboard/Iconos'
+import AvatarEditable from '../../components/perfil/AvatarEditable'
+import { logoApi } from '../../api/images'
+import useAuth from '../../hooks/useAuth'
 
 const CAMPOS = [
   ['nombre', 'Nombre de empresa'],
@@ -75,6 +78,8 @@ export function FormularioPerfilEmpresa({ empresa, onCancelar }) {
 
 function PerfilEmpresa() {
   const contexto = useOutletContext()
+  // Logo y rol salen directo de la sesión (/auth/me), así se actualizan con refreshUser().
+  const miembro = useAuth().user?.company_member
   const [editando, setEditando] = useState(false)
 
   const empresa = contexto?.empresa ?? {}
@@ -99,11 +104,20 @@ function PerfilEmpresa() {
     <section className="perfil empresa-perfil">
       <article className="tarjeta perfil-principal">
         <header>
-          <b className="avatar-grande">{empresa.siglas || '—'}</b>
+          {/* Solo el owner puede cambiar el logo: a los reclutadores no se les pasa `api`. */}
+          <AvatarEditable
+            url={miembro?.company?.logo_url}
+            siglas={empresa.siglas}
+            api={miembro?.is_owner ? logoApi : undefined}
+            etiqueta="logo"
+          />
           <h2>{empresa.nombre || 'Perfil sin cargar'}</h2>
           <p>{empresa.descripcion}</p>
           {empresa.ubicacion && <p className="ubicacion"><IconPin />{empresa.ubicacion}</p>}
-          <button type="button" className="btn-contorno" onClick={() => setEditando(true)}>Editar perfil</button>
+          {/* Solo el owner edita los datos de la empresa; los reclutadores la ven en solo lectura. */}
+          {miembro?.is_owner && (
+            <button type="button" className="btn-contorno" onClick={() => setEditando(true)}>Editar perfil</button>
+          )}
         </header>
         <ul className="estadisticas">
           {estadisticas.map(([numero, label]) => (
@@ -112,7 +126,7 @@ function PerfilEmpresa() {
         </ul>
       </article>
 
-      {editando && <FormularioPerfilEmpresa empresa={empresa} onCancelar={() => setEditando(false)} />}
+      {editando && miembro?.is_owner && <FormularioPerfilEmpresa empresa={empresa} onCancelar={() => setEditando(false)} />}
 
       <section className="tarjeta">
         <h3>Sobre la empresa</h3>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil, IconProyecto } from '../assets/icons/dashboard/Iconos'
+import { IconExplorar, IconMensajes, IconDocumentos, IconPerfil, IconProyecto, IconEmpresa, IconEquipo } from '../assets/icons/dashboard/Iconos'
 import { Logo } from '../components/Logo'
 import MenuUsuario from '../components/dashboard/MenuUsuario'
 // TODO API: hidratar estos estados iniciales desde el backend.
@@ -58,9 +58,15 @@ const DASHBOARDS = {
       { to: '/empresa/candidatos', texto: 'Candidatos', titulo: 'Candidatos', icono: <IconPerfil /> },
       { to: '/empresa/documentos', texto: 'Documentos SS', titulo: 'Documentos SS', icono: <IconDocumentos /> },
       { to: '/empresa/mensajes', texto: 'Mensajes', titulo: 'Mensajes', icono: <IconMensajes />, insignia: true },
+      // El perfil de la EMPRESA va en la barra lateral (es de todos los miembros)...
+      { to: '/empresa/perfil', texto: 'Perfil Empresa', titulo: 'Perfil Empresa', icono: <IconEmpresa /> },
+      // `mostrar` filtra el enlace según el usuario: los reclutadores no lo ven.
+      // (Ocultarlo es solo comodidad: la protección real es company.owner en el backend.)
+      { to: '/empresa/reclutadores', texto: 'Reclutadores', titulo: 'Reclutadores', icono: <IconEquipo />, mostrar: (user) => user?.company_member?.is_owner },
     ],
-    perfilRuta: '/empresa/perfil',
-    otrosTitulos: { '/empresa/perfil': 'Perfil Empresa' },
+    // ...y el perfil de la PERSONA se abre desde el menú de usuario, como en los otros roles.
+    perfilRuta: '/empresa/mi-perfil',
+    otrosTitulos: { '/empresa/mi-perfil': 'Mi Perfil' },
     useDatos() {
       // TODO BACKEND: reemplazar el estado inicial por consultas de la sesión de empresa, con
       // carga, error, reintento y sesión expirada. Mantener aquí los datos compartidos para
@@ -159,8 +165,11 @@ const DASHBOARDS = {
 function DashboardLayout({ rol }) {
   const config = DASHBOARDS[rol]
   const { contexto, sinLeer, error, limpiarError } = config.useDatos()
+  const { user } = useAuth()
   const { pathname } = useLocation()
-  const actual = config.menu.find((item) => item.to === pathname)
+  // Enlaces visibles para este usuario (sin `mostrar` = visible para todos).
+  const menu = config.menu.filter((item) => !item.mostrar || item.mostrar(user))
+  const actual = menu.find((item) => item.to === pathname)
 
   return (
     <div className={config.clase}>
@@ -170,7 +179,7 @@ function DashboardLayout({ rol }) {
         </header>
 
         <nav aria-label={config.navLabel}>
-          {config.menu.map((item) => (
+          {menu.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}

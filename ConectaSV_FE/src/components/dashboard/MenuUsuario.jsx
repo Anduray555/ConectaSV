@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
-import { roleLabel } from '../../utils/roleRoutes'
+import { companyRoleLabel, roleLabel } from '../../utils/roleRoutes'
 import { IconLogOut, IconPerfil } from '../../assets/icons/dashboard/Iconos'
 import LogoutButton from '../login_register/LogoutButton'
 
@@ -46,7 +46,8 @@ export default function MenuUsuario({ perfilRuta }) {
         {foto ? <img className="menu-usuario-foto" src={foto} alt="" /> : <b className="menu-usuario-foto">{siglas}</b>}
         <span className="menu-usuario-datos">
           <strong>{nombre}</strong>
-          <small>{roleLabel(user.role)}</small>
+          {/* En empresa se distingue Propietario / Reclutador; en los demás roles, el rol general. */}
+          <small>{user.company_member ? companyRoleLabel(user.company_member.role) : roleLabel(user.role)}</small>
         </span>
         <svg className="menu-usuario-flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
       </button>

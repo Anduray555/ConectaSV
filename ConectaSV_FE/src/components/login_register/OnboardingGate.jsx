@@ -1,14 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
-import { necesitaOnboarding, RUTA_ONBOARDING } from '../../utils/onboarding'
+import { rutaOnboarding } from '../../utils/onboarding'
 
-// Guardia del dashboard de estudiante: si aún no pasó por "Completa tu perfil",
-// lo manda allí. Va DENTRO de ProtectedRoute, así que aquí ya sabemos que hay usuario.
-// Funciona igual tras registrarse, al iniciar sesión o al escribir /dashboard a mano.
+// Guardia de los dashboards (estudiante y empresa): si el usuario tiene una pantalla de
+// bienvenida pendiente, lo manda allí. Va DENTRO de ProtectedRoute, así que hay usuario.
+// Funciona igual tras registrarse, al iniciar sesión o al escribir la URL a mano.
 export default function OnboardingGate() {
   const { user } = useAuth()
+  const ruta = rutaOnboarding(user)
 
-  if (necesitaOnboarding(user)) return <Navigate to={RUTA_ONBOARDING} replace />
+  if (ruta) return <Navigate to={ruta} replace />
 
   return <Outlet />
 }

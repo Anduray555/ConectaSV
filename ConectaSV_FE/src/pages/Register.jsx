@@ -9,6 +9,7 @@ import useAuth from '../hooks/useAuth.js'
 import { catalogApi } from '../api/catalogs'
 import { parseApiError } from '../api/errors'
 import { homeFor } from '../utils/roleRoutes.js'
+import { separar, erroresDelFormulario } from '../utils/nombres.js'
 import '../styles/auth.css'
 
 const TIPOS = [
@@ -33,21 +34,6 @@ const TIPOS = [
 // Campos del paso 1. Si el backend marca alguno, regresamos a ese paso.
 const CAMPOS_PASO_1 = ['nombres', 'apellidos', 'email', 'password', 'password_confirmation']
 
-// "Andrea Guadalupe" → ["Andrea", "Guadalupe"]; "María de los Ángeles" → ["María", "de los Ángeles"]
-function separar(texto) {
-  const [primero, ...resto] = texto.trim().split(/\s+/)
-  return [primero ?? '', resto.join(' ') || null]
-}
-
-// El backend separa nombres y apellidos; en el formulario son un solo campo cada uno.
-function erroresDelFormulario(fieldErrors) {
-  const { first_name, second_name, first_surname, second_surname, ...resto } = fieldErrors
-  return {
-    ...resto,
-    nombres: first_name ?? second_name,
-    apellidos: first_surname ?? second_surname,
-  }
-}
 
 function Register() {
   const { register } = useAuth()

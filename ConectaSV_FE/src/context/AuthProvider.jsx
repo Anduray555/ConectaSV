@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { authApi } from '../api/auth';
 import { TOKEN_KEY } from '../api/client';
+import { publicInvitationsApi } from '../api/invitations';
 import { AuthContext } from './AuthContext';
 
 export default function AuthProvider({ children }) {
@@ -48,6 +49,12 @@ export default function AuthProvider({ children }) {
     [startSession],
   );
 
+  // Aceptar una invitación crea la cuenta y, como el registro, devuelve la sesión.
+  const acceptInvitation = useCallback(
+    async (token, data) => startSession(await publicInvitationsApi.accept(token, data)),
+    [startSession],
+  );
+
   const logout = useCallback(async () => {
     try {
       await authApi.logout();
@@ -68,8 +75,8 @@ export default function AuthProvider({ children }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, login, register, logout, refreshUser }),
-    [user, loading, login, register, logout, refreshUser],
+    () => ({ user, loading, login, register, acceptInvitation, logout, refreshUser }),
+    [user, loading, login, register, acceptInvitation, logout, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

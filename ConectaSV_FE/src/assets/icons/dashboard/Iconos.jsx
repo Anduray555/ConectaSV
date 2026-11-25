@@ -96,3 +96,29 @@ export const IconLogOut = () => (
     <path d="M18 15l3 -3" />
   </Icono>
 )
+
+// Tabler "building": para "Perfil Empresa" en la barra lateral.
+export const IconEmpresa = () => (
+  <Icono>
+    <path d="M3 21l18 0" />
+    <path d="M9 8l1 0" />
+    <path d="M9 12l1 0" />
+    <path d="M9 16l1 0" />
+    <path d="M14 8l1 0" />
+    <path d="M14 12l1 0" />
+    <path d="M14 16l1 0" />
+    <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" />
+  </Icono>
+)
+
+// Tabler "users-group": para "Reclutadores" (equipo de la empresa).
+export const IconEquipo = () => (
+  <Icono>
+    <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+    <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+    <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+  </Icono>
+)

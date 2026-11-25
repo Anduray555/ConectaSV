@@ -1,0 +1,140 @@
+/* =========================================================
+   INVITAR RECLUTADORES (components/empresa/InvitarReclutadores.jsx)
+   Como tags.css: colores por variables, para usarse tanto en la
+   pantalla clara del registro (auth.css) como en el dashboard.
+   ========================================================= */
+
+.invitar {
+  --inv-borde: var(--borde, #cbd5e1);
+  --inv-fondo: var(--tarjeta, #fff);
+  --inv-texto: var(--texto, #172442);
+  --inv-suave: var(--texto-suave, #5d6b82);
+  --inv-primario: #1a5bfa;
+  --inv-primario-hover: #154ee0;
+
+  display: grid;
+  gap: 12px;
+}
+
+.invitar label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--inv-texto);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.invitar-fila {
+  display: flex;
+  gap: 8px;
+}
+
+.invitar input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--inv-borde);
+  border-radius: 10px;
+  background: var(--inv-fondo);
+  color: var(--inv-texto);
+  font: inherit;
+  font-size: 14px;
+}
+
+.invitar input:focus {
+  outline: none;
+  border-color: var(--inv-primario);
+  box-shadow: 0 0 0 3px rgba(26, 91, 250, .18);
+}
+
+.invitar-btn {
+  flex-shrink: 0;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--inv-primario);
+  border-radius: 10px;
+  background: var(--inv-primario);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.invitar-btn:hover:not(:disabled) { background: var(--inv-primario-hover); }
+.invitar-btn:disabled { opacity: .6; cursor: wait; }
+
+.invitar-btn-secundario {
+  background: transparent;
+  color: var(--inv-primario);
+}
+
+.invitar-btn-secundario:hover:not(:disabled) { background: #edf2ff; }
+
+.invitar > .invitar-btn-secundario { width: 100%; }
+
+.invitar-separador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--inv-suave);
+  font-size: 13px;
+}
+
+.invitar-separador::before,
+.invitar-separador::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--inv-borde);
+}
+
+.invitar-ayuda {
+  margin: 0;
+  color: var(--inv-suave);
+  font-size: 12px;
+  text-align: center;
+}
+
+.invitar-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #fecdca;
+  border-radius: 8px;
+  background: #fef3f2;
+  color: #b42318;
+  font-size: 13px;
+}
+
+/* ---------- Invitaciones creadas ---------- */
+.invitar-lista {
+  display: grid;
+  gap: 10px;
+  max-height: 260px;
+  margin: 4px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.invitar-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--inv-borde);
+  border-left: 4px solid #12b76a;
+  border-radius: 10px;
+  background: var(--inv-fondo);
+}
+
+/* El correo no se pudo enviar: borde naranja para llamar la atención. */
+.invitar-item.con-aviso { border-left-color: #f79009; }
+
+.invitar-item strong { color: var(--inv-texto); font-size: 14px; overflow-wrap: anywhere; }
+.invitar-item small { color: var(--inv-suave); font-size: 12px; line-height: 1.5; }
+.invitar-item input { height: 36px; font-family: var(--font-mono, monospace); font-size: 12px; }
+.invitar-item .invitar-btn { height: 36px; }
+
+@media (max-width: 480px) {
+  .invitar-form .invitar-fila { flex-direction: column; }
+}

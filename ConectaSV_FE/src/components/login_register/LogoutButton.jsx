@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
-export default function LogoutButton({ className = '', children = 'Cerrar sesión' }) {
+// `redirigirA`: a dónde ir después de cerrar sesión. Por defecto, al login; la página de
+// invitación lo cambia para quedarse en la misma invitación.
+export default function LogoutButton({ className = '', children = 'Cerrar sesión', redirigirA = '/login' }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -10,7 +12,7 @@ export default function LogoutButton({ className = '', children = 'Cerrar sesió
   const handleClick = async () => {
     setLoading(true);
     await logout();
-    navigate('/login', { replace: true });
+    navigate(redirigirA, { replace: true });
   };
 
   return (

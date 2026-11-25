@@ -728,3 +728,37 @@
 }
 .onboarding-omitir:hover:not(:disabled) { color: var(--texto); text-decoration: underline; }
 .onboarding-nota { margin: 4px 0 0; color: var(--texto-suave); font-size: 12px; text-align: center; }
+
+/* ---------- Invitaciones (pages/InvitarEquipo.jsx y pages/AceptarInvitacion.jsx) ---------- */
+.onboarding .invitar { margin-bottom: 20px; }
+
+/* Tarjeta con la empresa que invita, arriba del formulario. */
+.invitacion-empresa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background: var(--tarjeta);
+}
+.invitacion-empresa img,
+.invitacion-empresa b {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #1a5bfa;
+  color: #fff;
+  font-weight: 700;
+  object-fit: cover;
+}
+.invitacion-empresa div { display: grid; gap: 2px; }
+.invitacion-empresa strong { color: var(--texto); font-size: 15px; }
+.invitacion-empresa small { color: var(--texto-suave); font-size: 13px; }
+
+/* Campo de solo lectura (correo fijo de la invitación). */
+.campo input[readonly] { background: #eef2f8; color: var(--texto-suave); cursor: not-allowed; }

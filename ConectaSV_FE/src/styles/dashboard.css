@@ -1137,8 +1137,8 @@
 .admin-pendiente { padding: 16px; border-radius: 12px; background: #f4f6fa; margin-top: 12px; }
 .admin-pendiente p { color: var(--suave-d); font-size: 13px; margin-top: 6px; }
 .admin-acciones { display: flex; flex-wrap: wrap; gap: 8px; }
-.admin-dashboard .admin-acciones button { padding: 6px 12px; border-radius: 999px; background: #e6f9ee; color: #047857; font-size: 12px; }
-.admin-dashboard .admin-acciones button:last-child { background: #feecec; color: #b42318; }
+.dashboard .admin-acciones button { padding: 6px 12px; border-radius: 999px; background: #e6f9ee; color: #047857; font-size: 12px; }
+.dashboard .admin-acciones button:last-child { background: #feecec; color: #b42318; }
 .admin-pendiente .admin-acciones { margin-top: 12px; }
 .admin-pendiente .admin-acciones button { flex: 1; }
 .admin-usuarios .filtros, .admin-tickets .filtros { flex-wrap: wrap; gap: 8px; }
@@ -1195,6 +1195,66 @@
 .admin-paginacion button { padding: 8px 14px; border: 1px solid var(--borde-d); border-radius: 8px; background: white; color: var(--texto-d); font-size: 13px; }
 .admin-paginacion button:disabled { opacity: .5; cursor: not-allowed; }
 /* El color de cada botón lo da su acción, no su posición en la fila. */
-.admin-dashboard .admin-acciones button.admin-btn-exito { background: #e6f9ee; color: #047857; }
-.admin-dashboard .admin-acciones button.admin-btn-peligro { background: #feecec; color: #b42318; }
-.admin-dashboard .admin-acciones button.admin-btn-neutro { background: #f1f4f9; color: var(--suave-d); }
+.dashboard .admin-acciones button.admin-btn-exito { background: #e6f9ee; color: #047857; }
+.dashboard .admin-acciones button.admin-btn-peligro { background: #feecec; color: #b42318; }
+.dashboard .admin-acciones button.admin-btn-neutro { background: #f1f4f9; color: var(--suave-d); }
+
+/* ---------- Avatar editable (components/perfil/AvatarEditable.jsx) ----------
+   .avatar-grande ahora es un contenedor: dentro va la imagen o las iniciales,
+   y encima una capa con los botones que aparece al pasar el mouse o con el teclado. */
+.perfil-principal .avatar-grande { overflow: hidden; }
+.perfil-principal .avatar-grande.con-imagen { background: #fff; }
+.avatar-grande > b { font: inherit; }
+.avatar-grande > img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-acciones {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(8, 20, 45, .62);
+  opacity: 0;
+  transition: opacity .15s;
+}
+/* :focus-within = también se ve si se llega con Tab, no solo con el mouse. */
+.avatar-grande:hover .avatar-acciones,
+.avatar-grande:focus-within .avatar-acciones,
+.avatar-grande[aria-busy="true"] .avatar-acciones { opacity: 1; }
+.avatar-acciones button { padding: 2px 6px; border: 0; white-space: nowrap; border-radius: 4px; background: none; color: #fff; font: 600 11px 'Inter', Arial, sans-serif; cursor: pointer; }
+.avatar-acciones button:hover:not(:disabled) { background: rgba(255, 255, 255, .18); }
+.avatar-acciones button:focus-visible { outline: 2px solid #fff; }
+.avatar-acciones button:disabled { cursor: wait; }
+/* En pantallas táctiles no existe "pasar el mouse": la capa se muestra siempre, abajo y pequeña. */
+@media (hover: none) {
+  .avatar-acciones { inset: auto 0 0; flex-direction: row; padding: 2px; opacity: 1; }
+  .avatar-acciones button { font-size: 9px; }
+}
+.avatar-error { grid-column: 1 / -1; margin-top: 8px; color: #b42318; font-size: 13px; }
+
+/* Enlace al pie de una tarjeta de perfil (por ejemplo, "Ver perfil de la empresa →"). */
+.perfil-enlace { margin-top: 16px; font-size: 14px; }
+.perfil-enlace a { color: var(--azul); font-weight: 600; text-decoration: none; }
+.perfil-enlace a:hover { text-decoration: underline; }
+
+/* ---------- Reclutadores (pages/empresa/ReclutadoresEmpresa.jsx) ----------
+   Reutiliza .admin-tabla, .admin-insignia y .admin-acciones del panel admin. */
+.reclutadores { display: grid; gap: 20px; }
+.reclutadores-columnas { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr); gap: 20px; align-items: start; }
+.reclutadores-principal { display: grid; gap: 20px; min-width: 0; }
+.reclutadores h3 { margin-bottom: 14px; font-size: 16px; }
+.reclutadores h3 small { color: var(--suave-d); font-weight: 500; }
+.reclutadores-nota { margin: -6px 0 14px; color: var(--suave-d); font-size: 13px; line-height: 1.5; }
+.reclutadores .admin-tabla table { min-width: 560px; }
+.reclutadores-persona { display: flex; align-items: center; gap: 10px; }
+.reclutadores-persona img,
+.reclutadores-persona > b { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px; background: var(--azul); color: #fff; font-size: 13px; object-fit: cover; }
+/* El aside de invitar queda fijo al hacer scroll en pantallas grandes. */
+.reclutadores-invitar { position: sticky; top: 0; }
+/* InvitarReclutadores usa variables con la paleta de auth.css; aquí se cambian a la del dashboard. */
+.dashboard .invitar { --inv-borde: var(--borde-d); --inv-fondo: #fff; --inv-texto: var(--texto-d); --inv-suave: var(--suave-d); --inv-primario: var(--azul); }
+@media (max-width: 1100px) {
+  .reclutadores-columnas { grid-template-columns: 1fr; }
+  .reclutadores-invitar { position: static; }
+}

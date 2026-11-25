@@ -14,3 +14,11 @@ export const ROLE_LABEL = {
 };
 
 export const roleLabel = (role) => ROLE_LABEL[role] ?? role;
+
+// Rol dentro de la empresa (company_member.role).
+export const COMPANY_ROLE_LABEL = {
+  owner: 'Propietario',
+  recruiter: 'Reclutador',
+};
+
+export const companyRoleLabel = (role) => COMPANY_ROLE_LABEL[role] ?? role;

@@ -3,11 +3,16 @@ import { useOutletContext } from 'react-router-dom'
 import { IconPin } from '../../assets/icons/dashboard/Iconos'
 import { catalogApi } from '../../api/catalogs'
 import { etiquetaInteres } from '../../utils/intereses'
+import AvatarEditable from '../../components/perfil/AvatarEditable'
+import { avatarApi } from '../../api/images'
+import useAuth from '../../hooks/useAuth'
 
 // El perfil viene de GET /api/auth/me (ver perfilEstudianteDesdeUsuario en data/dashboard.js).
 
 function MiPerfil() {
   const { perfil } = useOutletContext()
+  // La foto se lee directo de la sesión: tras subirla, refreshUser() la actualiza aquí.
+  const { user } = useAuth()
   // Catálogo completo de tipos de oferta, para mostrar los 3 con "Me interesa" / "No me interesa".
   const [tiposOferta, setTiposOferta] = useState([])
 
@@ -20,7 +25,8 @@ function MiPerfil() {
     <section className="perfil">
       <article className="tarjeta perfil-principal">
         <header>
-          <b className="avatar-grande">{perfil.siglas}</b>
+          <AvatarEditable url={user?.avatar_url} siglas={perfil.siglas} api={avatarApi} />
+
           <h2>{perfil.nombre || 'Perfil sin cargar'}</h2>
           <p>{academico || 'Sin información académica'}</p>
           {perfil.ubicacion && (

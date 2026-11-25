@@ -10,6 +10,7 @@ export function ErrorCampo({ id, error }) {
 export function Campo({
   id, label, name, icono, type = "text", placeholder, requerido = true,
   autoComplete, error, maxLength, inputMode, pattern, title, onInput,
+  defaultValue, readOnly,
 }) {
   return (
     <>
@@ -28,6 +29,8 @@ export function Campo({
           pattern={pattern}
           title={title}
           onInput={onInput}
+          defaultValue={defaultValue}
+          readOnly={readOnly}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? `${id}_error` : undefined}
         />

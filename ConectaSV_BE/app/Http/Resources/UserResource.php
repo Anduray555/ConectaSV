@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role->name,
             'is_active' => $this->is_active,
+            // null = sin foto (el frontend muestra las iniciales).
+            'avatar_url' => $this->avatarUrl(),
             'student_profile' => $this->whenLoaded('studentProfile', fn () => [
                 'student_code' => $this->studentProfile->student_code,
                 'university' => $this->studentProfile->university->only(['id', 'name', 'short_name']),
@@ -30,9 +32,14 @@ class UserResource extends JsonResource
             'company_member' => $this->whenLoaded('companyMember', fn () => [
                 'phone' => $this->companyMember->phone,
                 'role' => $this->companyMember->companyRole->name,
+                // Atajo para el frontend: muestra u oculta lo que solo puede hacer el owner.
+                'is_owner' => $this->companyMember->isOwner(),
+                // null = el owner aún no pasa por "Invita a tu equipo".
+                'onboarded_at' => $this->companyMember->onboarded_at?->toIso8601String(),
                 'company' => [
                     'id' => $this->companyMember->company->id,
                     'name' => $this->companyMember->company->name,
+                    'logo_url' => $this->companyMember->company->logoUrl(),
                     'web_site' => $this->companyMember->company->web_site,
                     'contact_number' => $this->companyMember->company->contact_number,
                     'sector' => $this->companyMember->company->sector->name,
